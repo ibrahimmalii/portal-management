@@ -49,6 +49,10 @@
                                 <h3 class="panel-title">Main Company</h3>
                             @elseif($row->display_name == 'Sub Company Id')
                                 <h3 class="panel-title">Sub Company</h3>
+                            @elseif($row->display_name == 'Product Id')
+                                <h3 class="panel-title">Product</h3>
+                            @elseif($row->display_name == 'User Id')
+                                <h3 class="panel-title">User</h3>
                             @else
                                 <h3 class="panel-title">{{ $row->getTranslatedAttribute('display_name') }}</h3>
                             @endif
@@ -140,6 +144,21 @@
                                     @else
                                         <span>Unemployed</span>
                                     @endif
+                                @elseif($row->field == 'is_paid' || $row->field == 'is_fully_paid')
+                                    @if($dataTypeContent->{$row->field})
+                                        <span class="label label-info">Paid</span>
+                                    @else
+                                        <span class="label label-primary">Unpaid</span>
+                                    @endif
+                                @elseif($row->field == 'liability_id')
+                                    <?php $liability = \App\Models\Liability::find($dataTypeContent->{$row->field}); ?>
+                                    <a href="{{ route('voyager.liabilities.show', $liability->id) }}">{{ $liability->id }}</a>
+                                @elseif($row->field == 'user_id')
+                                    <?php $user = \App\Models\User::find($dataTypeContent->{$row->field}); ?>
+                                    <a href="{{ route('voyager.users.show', $user->id) }}">{{ $user->name }}</a>
+                                @elseif($row->field == 'product_id')
+                                    <?php $product = \App\Models\Product::find($dataTypeContent->{$row->field}); ?>
+                                    <a href="{{ route('voyager.products.show', $product->id) }}">{{ $product->name }}</a>
                                 @elseif($row->field == 'sub_company_id')
                                     <?php $subCompany = \App\Models\SubCompany::find($dataTypeContent->{$row->field}); ?>
                                     @if($subCompany)

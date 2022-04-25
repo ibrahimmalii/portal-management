@@ -210,6 +210,12 @@
                                                     @elseif($row->field == 'product_id')
                                                         <?php $product = \App\Models\Product::find($data->{$row->field}); ?>
                                                         <a href="{{route('voyager.products.show', $data->{$row->field})}}">{{$product->name}}</a>
+                                                    @elseif($row->field == 'is_paid' || $row->field == 'is_fully_paid')
+                                                        @if($data->{$row->field})
+                                                            <span class="label label-info">paid</span>
+                                                        @else
+                                                            <span class="label label-primary">unpaid</span>
+                                                        @endif
                                                     @elseif($row->field == 'user_id')
                                                         <?php $user = \App\Models\User::find($data->{$row->field}); ?>
                                                         <a href="{{route('voyager.users.show', $data->{$row->field})}}">{{$user->name}}</a>
