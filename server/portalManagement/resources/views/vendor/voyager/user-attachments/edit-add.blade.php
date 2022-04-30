@@ -56,7 +56,6 @@
                             @endphp
 
                             @foreach($dataTypeRows as $row)
-                                <!-- GET THE DISPLAY OPTIONS -->
                                 @php
                                     $display_options = $row->details->display ?? NULL;
                                     if ($dataTypeContent->{$row->field.'_'.($edit ? 'edit' : 'add')}) {
@@ -69,17 +68,12 @@
 
                                 <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
                                     {{ $row->slugify }}
-
-                                    @if($row->getTranslatedAttribute('display_name') == 'Company Id')
-                                        <label class="control-label" for="name">Main Company Name</label>
-                                    @elseif($row->getTranslatedAttribute('display_name') == 'Sub Company Id')
-                                        <label class="control-label" for="name">Sub Company Name</label>
-                                    @elseif($row->getTranslatedAttribute('display_name') == 'User Id')
-                                        <label class="control-label" for="name">User Name</label>
-                                    @elseif($row->getTranslatedAttribute('display_name') == 'Product Id')
-                                        <label class="control-label" for="name">Product Name</label>
-                                    @else
-                                    <label class="control-label" for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
+                                    @if($edit)
+                                        @if($row->getTranslatedAttribute('display_name') == 'User Id')
+                                            <label class="control-label" for="name">User Name</label>
+                                        @else
+                                            <label class="control-label" for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
+                                        @endif
                                     @endif
 
                                     @include('voyager::multilingual.input-hidden-bread-edit-add')
@@ -94,61 +88,21 @@
                                     @elseif ($row->type == 'relationship')
                                     @include('voyager::formfields.relationship', ['options' => $row->details])
                                     @else
-                                        @if($row->field == 'company_id')
-                                            <div class="form-group">
-                                                <select class="form-control" name="company_id">
-                                                    @foreach('App\Models\Company'::all() as $company)
-                                                        <option value="{{ $company->id }}"@if(isset($dataTypeContent->company_id) && $dataTypeContent->company_id == $company->id) selected="selected"@endif>{{ $company->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @elseif($row->field == 'product_id')
-                                            <div class="form-group">
-                                                <select class="form-control" name="product_id">
-                                                    @foreach('App\Models\Product'::all() as $product)
-                                                        <option value="{{ $product->id }}"@if(isset($dataTypeContent->product_id) && $dataTypeContent->product_id == $product->id) selected="selected"@endif>{{ $product->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @elseif($row->field == 'user_id')
-                                            <div class="form-group">
-                                                <select class="form-control" name="user_id">
-                                                    @foreach('App\Models\User'::where('role_id', 3)->get() as $user)
-                                                        <option value="{{ $user->id }}"@if(isset($dataTypeContent->user_id) && $dataTypeContent->user_id == $user->id) selected="selected"@endif>{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @elseif($row->field == 'sub_company_id')
-                                            <div class="form-group">
-                                                <select class="form-control" name="sub_company_id">
-                                                    @foreach('App\Models\SubCompany'::all() as $sub_company)
-                                                        <option value="{{ $sub_company->id }}"@if(isset($dataTypeContent->sub_company_id) && $dataTypeContent->sub_company_id == $sub_company->id) selected="selected"@endif>{{ $sub_company->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @elseif($row->field == 'amount')
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" name="amount" placeholder="{{ $row->getTranslatedAttribute('display_name') }}" value="{{ old($row->field, $dataTypeContent->{$row->field}) }}">
-                                            </div>
-                                        @elseif($row->field == 'expired_at')
-                                            <div class="form-group">
-                                                <input type="date" class="form-control" name="expired_at" value="{{ $dataTypeContent->expired_at }}">
-                                            </div>
-                                        @elseif($row->field == 'is_fully_paid')
-                                            <div class="form-group">
-                                                <select class="form-control" name="is_fully_paid">
-                                                    <option value="0" @if(isset($dataTypeContent->is_fully_paid) && $dataTypeContent->is_fully_paid == 0) selected="selected" @endif>No</option>
-                                                    <option value="1" @if(isset($dataTypeContent->is_fully_paid) && $dataTypeContent->is_fully_paid == 1) selected="selected" @endif>Yes</option>
-                                                </select>
-                                            </div>
-                                        @elseif($row->field == 'total_amount' || $row->field == 'remaining_amount')
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" name="{{ $row->field }}" placeholder="{{ $row->getTranslatedAttribute('display_name') }}" value="{{ old($row->field, $dataTypeContent->{$row->field}) }}">
-                                            </div>
-                                        @else
-                                            {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}
+                                        @if($edit)
+                                            @if($row->field == 'user_id')
+                                                <div class="form-group">
+                                                    <select class="form-control" name="user_id">
+                                                        @foreach('App\Models\User'::all() as $user)
+                                                            <option value="{{ $user->id }}" {{ $dataTypeContent->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            @else
+                                                {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}
+                                            @endif
                                         @endif
                                     @endif
+
 
                                     @foreach (app('voyager')->afterFormFields($row, $dataType, $dataTypeContent) as $after)
                                         {!! $after->handle($row, $dataType, $dataTypeContent) !!}
@@ -160,6 +114,25 @@
                                     @endif
                                 </div>
                             @endforeach
+
+                            @if(!$edit)
+                                <div class="form-group">
+                                    <label class="control-label" for="name">User Name</label>
+                                    <select class="form-control" name="user_id">
+                                        @foreach('App\Models\User'::all() as $user)
+                                            <option value="{{ $user->id }}" {{ $dataTypeContent->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label" for="name">Attachments</label>
+                                            <input type="file" name="attachments[]" multiple="multiple" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
                         </div><!-- panel-body -->
 

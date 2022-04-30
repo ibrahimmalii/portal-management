@@ -53,6 +53,8 @@
                                 <h3 class="panel-title">Product</h3>
                             @elseif($row->display_name == 'User Id')
                                 <h3 class="panel-title">User</h3>
+                            @elseif($row->display_name == 'user_attachments')
+                                <h3 class="panel-title">Attachments</h3>
                             @else
                                 <h3 class="panel-title">{{ $row->getTranslatedAttribute('display_name') }}</h3>
                             @endif
@@ -77,7 +79,11 @@
                                          src="{{ filter_var($dataTypeContent->{$row->field}, FILTER_VALIDATE_URL) ? $dataTypeContent->{$row->field} : Voyager::image($dataTypeContent->{$row->field}) }}">
                                 @endif
                             @elseif($row->type == 'relationship')
+                                @if($row->getTranslatedAttribute('display_name') == 'user_attachments')
                                  @include('voyager::formfields.relationship', ['view' => 'read', 'options' => $row->details])
+                                @else
+                                 @include('voyager::formfields.relationship', ['view' => 'read', 'options' => $row->details])
+                                @endif
                             @elseif($row->type == 'select_dropdown' && property_exists($row->details, 'options') &&
                                     !empty($row->details->options->{$dataTypeContent->{$row->field}})
                             )
@@ -156,6 +162,14 @@
                                 @elseif($row->field == 'user_id')
                                     <?php $user = \App\Models\User::find($dataTypeContent->{$row->field}); ?>
                                     <a href="{{ route('voyager.users.show', $user->id) }}">{{ $user->name }}</a>
+                                @elseif($row->field == 'attachment_path')
+                                    @if($dataTypeContent->{$row->field})
+                                        <a target="_blank" href="{{ Storage::disk(config('voyager.storage.disk'))->url($dataTypeContent->{$row->field}) ?: '' }}">
+                                            {{ $dataTypeContent->{$row->field} }}
+                                        </a>
+                                    @else
+                                        <span>No attachment</span>
+                                    @endif
                                 @elseif($row->field == 'product_id')
                                     <?php $product = \App\Models\Product::find($dataTypeContent->{$row->field}); ?>
                                     <a href="{{ route('voyager.products.show', $product->id) }}">{{ $product->name }}</a>
@@ -165,6 +179,13 @@
                                         <a href="{{ route('voyager.sub-companies.show', $subCompany->id) }}">{{ $subCompany->name }}</a>
                                     @else
                                         <span>Unemployed</span>
+                                    @endif
+                                @elseif($row->field == 'supervisor')
+                                    <?php $supervisor = \App\Models\User::find($dataTypeContent->{$row->field}); ?>
+                                    @if($supervisor)
+                                        <a href="{{ route('voyager.users.show', $supervisor->id) }}">{{ $supervisor->name }}</a>
+                                    @else
+                                        <span>No Result</span>
                                     @endif
                                 @else
                                     @include('voyager::multilingual.input-hidden-bread-read')

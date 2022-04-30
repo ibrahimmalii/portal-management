@@ -98,6 +98,10 @@
                                             <div class="form-group">
                                                 <input type="date" class="form-control" name="date" value="{{ $dataTypeContent->date }}">
                                             </div>
+                                        @elseif($row->field == 'required_amount')
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="required_amount" value="{{ $dataTypeContent->required_amount }}">
+                                            </div>
                                         @elseif($row->field == 'liability_id')
                                             <div class="form-group">
                                                 <select class="form-control" name="liability_id">

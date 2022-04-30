@@ -97,11 +97,14 @@
                                         @if($row->field == 'company_id')
                                             <div class="form-group">
                                                 <select class="form-control" name="company_id">
-                                                    <option>Select the main company</option>
                                                     @foreach('App\Models\Company'::all() as $company)
                                                         <option value="{{ $company->id }}" {{ $dataTypeContent->company_id == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        @elseif($row->field == 'expired_at')
+                                            <div class="form-group">
+                                                <input type="date" class="form-control" name="expired_at" value="{{ $dataTypeContent->expired_at }}">
                                             </div>
                                         @else
                                             {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}

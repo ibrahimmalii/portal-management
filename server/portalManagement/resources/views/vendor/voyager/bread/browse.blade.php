@@ -96,8 +96,12 @@
                                                 <span>Product</span>
                                             @elseif($row->display_name == 'User Id')
                                                 <span>User</span>
+                                            @elseif($row->display_name == 'user_attachments' || $row->display_name == 'company_attachments' || $row->display_name == 'sub_company_attachments' || $row->display_name == 'product_attachments')
+                                                <span>Attachments</span>
                                             @elseif($row->display_name == 'Liability Id')
                                                 <span>Liability</span>
+                                            @elseif($row->display_name == 'user_attachments')
+                                                <span>Attachments</span>
                                             @else
                                             {{ $row->getTranslatedAttribute('display_name') }}
                                             @endif
@@ -222,8 +226,15 @@
                                                     @elseif($row->field == 'liability_id')
                                                         <?php $liability = \App\Models\Liability::find($data->{$row->field}); ?>
                                                         <a href="{{route('voyager.liabilities.show', $data->{$row->field})}}">{{$liability->id}}</a>
+                                                    @elseif($row->field == 'supervisor')
+                                                        <?php $supervisor = \App\Models\User::find($data->{$row->field}); ?>
+                                                        @if($supervisor)
+                                                            <a href="{{route('voyager.users.show', $data->{$row->field})}}">{{$supervisor->name}}</a>
+                                                        @else
+                                                            <span>No Result</span>
+                                                        @endif
                                                     @else
-                                                    <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                                        <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
                                                     @endif
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
