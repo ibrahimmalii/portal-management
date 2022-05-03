@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('sub_company_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->bigInteger('civil_id');
             $table->integer('total_amount');
             $table->integer('remaining_amount');
             $table->boolean('is_fully_paid')->default(false);

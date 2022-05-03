@@ -53,7 +53,7 @@
                                 <h3 class="panel-title">Product</h3>
                             @elseif($row->display_name == 'User Id')
                                 <h3 class="panel-title">User</h3>
-                            @elseif($row->display_name == 'user_attachments')
+                            @elseif($row->display_name == 'user_attachments' || $row->display_name == 'company_attachments' || $row->display_name == 'sub_company_attachments')
                                 <h3 class="panel-title">Attachments</h3>
                             @else
                                 <h3 class="panel-title">{{ $row->getTranslatedAttribute('display_name') }}</h3>

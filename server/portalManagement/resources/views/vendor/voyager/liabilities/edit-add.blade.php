@@ -143,7 +143,7 @@
                                             </div>
                                         @elseif($row->field == 'total_amount' || $row->field == 'remaining_amount')
                                             <div class="form-group">
-                                                <input type="number" class="form-control" name="{{ $row->field }}" placeholder="{{ $row->getTranslatedAttribute('display_name') }}" value="{{ old($row->field, $dataTypeContent->{$row->field}) }}">
+                                                <input type="number" class="form-control" name="{{ $row->field }}" placeholder="{{ $row->getTranslatedAttribute('display_name') }}" value="{{ old($row->field, $dataTypeContent->{$row->field}) ?? 0 }}">
                                             </div>
                                         @else
                                             {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}
