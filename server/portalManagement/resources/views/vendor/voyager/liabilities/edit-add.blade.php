@@ -113,7 +113,8 @@
                                         @elseif($row->field == 'user_id')
                                             <div class="form-group">
                                                 <select class="form-control" name="user_id">
-                                                    @foreach('App\Models\User'::where('role_id', 3)->get() as $user)
+                                                    {{-- GEt users have the same company_id when change company_id select --}}
+                                                    @foreach('App\Models\User'::where('role_id', 2)->orWhere('role_id', 3)->get() as $user)
                                                         <option value="{{ $user->id }}"@if(isset($dataTypeContent->user_id) && $dataTypeContent->user_id == $user->id) selected="selected"@endif>{{ $user->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -121,6 +122,7 @@
                                         @elseif($row->field == 'sub_company_id')
                                             <div class="form-group">
                                                 <select class="form-control" name="sub_company_id">
+                                                    <option value="{{null}}">Select Sub Company</option>
                                                     @foreach('App\Models\SubCompany'::all() as $sub_company)
                                                         <option value="{{ $sub_company->id }}"@if(isset($dataTypeContent->sub_company_id) && $dataTypeContent->sub_company_id == $sub_company->id) selected="selected"@endif>{{ $sub_company->name }}</option>
                                                     @endforeach
@@ -275,6 +277,7 @@
                 $('#confirm_delete_modal').modal('hide');
             });
             $('[data-toggle="tooltip"]').tooltip();
+
         });
     </script>
 @stop

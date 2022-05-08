@@ -17,6 +17,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('name')->unique();
+            $table->string('name_ar')->unique();
+            $table->bigInteger('license_number');
+            $table->text('license_address');
+            $table->date('date_of_issuance_of_license');
+            $table->bigInteger('central_number');
+            $table->bigInteger('file_number');
+            $table->bigInteger('civil_authority_number');
+            $table->bigInteger('commercial_register_number');
+            $table->bigInteger('address_automatic_number');
             $table->string('description');
             $table->text('address');
             $table->date('expired_at')->nullable();

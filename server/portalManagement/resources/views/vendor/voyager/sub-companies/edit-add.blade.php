@@ -72,6 +72,8 @@
 
                                     @if($row->getTranslatedAttribute('display_name') == 'Company Id')
                                         <label class="control-label" for="name">Main Company Name</label>
+                                    @elseif($row->getTranslatedAttribute('display_name') == 'Name Ar')
+                                        <label class="control-label" for="name">الاسم باللغة العربية</label>
                                     @elseif($row->getTranslatedAttribute('display_name') == 'Sub Company Id')
                                         <label class="control-label" for="name">Sub Company Name</label>
                                     @elseif($row->getTranslatedAttribute('display_name') == 'User Id')
@@ -101,6 +103,10 @@
                                                         <option value="{{ $company->id }}" {{ $dataTypeContent->company_id == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        @elseif($row->field == 'name_ar')
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="name_ar" placeholder="الاسم باللغة العربية" value="{{ old('name_ar', $dataTypeContent->name_ar) }}">
                                             </div>
                                         @elseif($row->field == 'expired_at')
                                             <div class="form-group">

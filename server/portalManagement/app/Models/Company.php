@@ -10,6 +10,8 @@ class Company extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     /**
      * Relationships.
      *

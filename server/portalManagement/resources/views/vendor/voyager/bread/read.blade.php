@@ -49,6 +49,8 @@
                                 <h3 class="panel-title">Main Company</h3>
                             @elseif($row->display_name == 'Sub Company Id')
                                 <h3 class="panel-title">Sub Company</h3>
+                            @elseif($row->display_name == 'Name Ar')
+                                <h3 class="panel-title">الاسم</h3>
                             @elseif($row->display_name == 'Product Id')
                                 <h3 class="panel-title">Product</h3>
                             @elseif($row->display_name == 'User Id')

@@ -90,6 +90,8 @@
                                             @endif
                                             @if($row->display_name == 'Company Id')
                                                 <span>Main Company</span>
+                                            @elseif($row->display_name == 'Name Ar')
+                                                <h3 class="panel-title">الاسم</h3>
                                             @elseif($row->display_name == 'Sub Company Id')
                                                 <span>Sub Company</span>
                                             @elseif($row->display_name == 'Product Id')

@@ -69,8 +69,11 @@
 
                                 <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
                                     {{ $row->slugify }}
-                                    <label class="control-label" for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
-
+                                    @if($row->getTranslatedAttribute('display_name') == 'Name Ar')
+                                        <label class="control-label" for="name">الاسم باللغة العربية</label>
+                                    @else
+                                        <label class="control-label" for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
+                                    @endif
                                     @include('voyager::multilingual.input-hidden-bread-edit-add')
 
 
@@ -87,6 +90,10 @@
                                         @if($row->field == 'expired_at')
                                             <div class="form-group">
                                                 <input type="date" class="form-control" name="expired_at" value="{{ $dataTypeContent->expired_at }}">
+                                            </div>
+                                        @elseif($row->field == 'name_ar')
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="name_ar" placeholder="الاسم باللغة العربية" value="{{ old($row->field, $dataTypeContent->{$row->field}) }}">
                                             </div>
                                         @else
                                             {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}
