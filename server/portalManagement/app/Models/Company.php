@@ -21,4 +21,14 @@ class Company extends Model
     {
         return $this->hasMany(SubCompany::class);
     }
+
+    /**
+     * Relationships.
+     *
+     * @return HasMany
+     */
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(CompanyAttachment::class);
+    }
 }
