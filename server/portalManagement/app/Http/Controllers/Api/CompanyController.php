@@ -20,6 +20,11 @@ class CompanyController extends Controller
         return response()->json($companies);
     }
 
+    public function getDropDown(){
+        $companies = Company::select('id', 'name')->get();
+        return response()->json($companies);
+    }
+
     public function store(CompanyRequest $request)
     {
         $validated = $request->validated();
@@ -42,7 +47,9 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      */
     public function show(Company $company){
-        $response =  Company::with('attachments')->where('id', $company->id)->first();
+        $response =  Company::with(['attachments' => function ($query) {
+            $query->select('id', 'company_id', 'attachment_path');
+        }])->where('id', $company->id)->first();
         return response()->json($response);
     }
 
@@ -55,7 +62,7 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company){
         $validated = $request->validated();
         $company->update($validated);
-        if(!is_null($validated['attachments'])){
+        if(!empty($validated['attachments'])){
             foreach ($validated['attachments'] as $key => $attachment){
                 $fileName = time() . '_' . $attachment->getClientOriginalName();
                 $filePath = $attachment->storeAs('companyAttachments', $fileName, 'public');
