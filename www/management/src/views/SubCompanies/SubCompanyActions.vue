@@ -7,7 +7,7 @@
         class="btn"
         variant="light"
         @click="viewCompany"
-        :to="{ name: 'browse-company', params: { id: data.id } }"
+        :to="{ name: 'browse-sub-company', params: { id: data.id } }"
       >
         <i class="fa fa-info"> </i>
       </router-link>
@@ -46,7 +46,7 @@ export default {
     };
   },
   mounted() {
-    eventBus.$on('company-deleted', this.deleteComplete);
+    eventBus.$on('sub-company-deleted', this.deleteComplete);
   },
   computed: {
     toolTipOptions() {
@@ -63,12 +63,12 @@ export default {
   },
   methods: {
     editCompany() {
-      eventBus.$emit('edit-company', this.data);
+      eventBus.$emit('edit-sub-company', this.data);
     },
     deleteClicked() {
       this.confirmDelete(() => {
         this.deleting = true;
-        eventBus.$emit('delete-company', this.data);
+        eventBus.$emit('delete-sub-company', this.data);
       });
     },
     deleteComplete(id) {
@@ -78,7 +78,7 @@ export default {
     },
     viewCompany() {
       console.log('done');
-      eventBus.$emit('view-company', this.data);
+      eventBus.$emit('view-sub-company', this.data);
     },
   },
 };

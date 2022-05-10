@@ -4,28 +4,6 @@
       <b-form @submit.prevent="handleSubmit(onSubmit)">
         <b-row class="my-1 text-end mb-3">
           <b-col>
-            <label for="input-small">{{ $store.state.license_number }}</label>
-            <validation-provider
-              v-slot="validationContext"
-              :name="$store.state.license_number"
-              rules="required"
-              vid="license_number"
-            >
-              <b-form-input
-                id="license_number"
-                v-model="form.license_number"
-                class="text-end"
-                size="md"
-                :placeholder="$store.state.enterLicenseNumber"
-              ></b-form-input>
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </validation-provider>
-          </b-col>
-          <b-col>
             <label for="input-small">{{ $store.state.arabicName }}</label>
             <validation-provider
               v-slot="validationContext"
@@ -68,14 +46,61 @@
               </b-form-invalid-feedback>
             </validation-provider>
           </b-col>
+          <b-col>
+            <label for="input-small">{{ $store.state.main_company }}</label>
+            <validation-provider
+              v-slot="validationContext"
+              :name="$store.state.main_company"
+              rules="required"
+              vid="main_company"
+            >
+              <v-select
+                id="main_company"
+                v-model="form.company_id"
+                size="md"
+                dir="rtl"
+                :placeholder="$store.state.enterMainCompany"
+                :options="companiesDropdownGetter"
+                label="name"
+                value="id"
+              ></v-select>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </validation-provider>
+          </b-col>
         </b-row>
         <b-row class="my-1 text-end mb-3">
+          <b-col>
+            <label for="input-small">{{ $store.state.license_number }}</label>
+            <validation-provider
+              v-slot="validationContext"
+              :name="$store.state.license_number"
+              rules="required|numeric"
+              vid="license_number"
+            >
+              <b-form-input
+                id="license_number"
+                v-model="form.license_number"
+                class="text-end"
+                size="md"
+                :placeholder="$store.state.enterLicenseNumber"
+              ></b-form-input>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </validation-provider>
+          </b-col>
           <b-col>
             <label for="input-small">{{ $store.state.central_number }}</label>
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.central_number"
-              rules="required"
+              rules="required|numeric"
               vid="central_number"
             >
               <b-form-input
@@ -99,7 +124,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.civil_authority_number"
-              rules="required"
+              rules="required|numeric"
               vid="civil_authority_number"
             >
               <b-form-input
@@ -115,6 +140,8 @@
               </b-form-invalid-feedback>
             </validation-provider>
           </b-col>
+        </b-row>
+        <b-row class="my-1 text-end mb-3">
           <b-col>
             <label for="input-small">{{
               $store.state.commercial_register_number
@@ -122,7 +149,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.commercial_register_number"
-              rules="required"
+              rules="required|numeric"
               vid="commercial_register_number"
             >
               <b-form-input
@@ -139,8 +166,6 @@
               </b-form-invalid-feedback>
             </validation-provider>
           </b-col>
-        </b-row>
-        <b-row class="my-1 text-end mb-3">
           <b-col>
             <label for="input-small">{{
               $store.state.address_automatic_number
@@ -148,7 +173,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.address_automatic_number"
-              rules="required"
+              rules="required|numeric"
               vid="address_automatic_number"
             >
               <b-form-input
@@ -169,7 +194,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.file_number"
-              rules="required"
+              rules="required|numeric"
               vid="file_number"
             >
               <b-form-input
@@ -305,7 +330,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.attachments"
-              rules="required|size:5120"
+              rules="size:5120"
               vid="attachments"
             >
               <b-form-group
@@ -315,6 +340,17 @@
                 <template #label>
                   <span>{{ $store.state.attachments }}</span>
                 </template>
+                <span v-show="isThereOriginalAttachment">
+                  <b-link
+                    v-for="attachmant of form.original_attachment"
+                    :key="attachmant.id"
+                    :href="`localhost:8000${attachmant.attachment_path}`"
+                    target="_blank"
+                  >
+                    <i class="fa fa-link" style="font-size: 12px"></i>
+                  </b-link>
+                </span>
+
                 <b-input-group class="text-end">
                   <b-form-file
                     class="ms-auto"
@@ -327,9 +363,12 @@
                   ></b-form-file>
                   <b-input-group-append>
                     <b-button
-                      :disabled="checkAttachments"
+                      :disabled="
+                        form.attachments == null &&
+                        form.original_attachment == null
+                      "
                       variant="danger"
-                      @click="form.attachments = null"
+                      @click="clearAttachments"
                       ><i class="fa fa-times-circle"></i
                     ></b-button>
                   </b-input-group-append>
@@ -360,7 +399,7 @@
               variant="primary"
             >
               <span v-if="!isSubmitted">
-                {{ $store.state.add }}
+                {{ $store.state.edit }}
               </span>
               <span v-else>
                 <b-spinner small variant="light"></b-spinner>
@@ -374,13 +413,34 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  name: 'AddCompanyView',
-  emits: ['addedSuccessfully', 'addeddError'],
+  props: ['company'],
+  emits: ['updatedSuccessfully', 'updatedError'],
+  mounted() {
+    for (let i in this.company) {
+      if (i == 'attachments') {
+        this.form['original_attachment'] = this.company[i];
+        this.form.attachments = null;
+        continue;
+      }
+      if (i == 'company') {
+        this.form.company_id = this.company[i];
+        continue;
+      }
+      this.form[i] = this.company[i];
+    }
+
+    this.isThereOriginalAttachment = true;
+  },
   data() {
     return {
       isSubmitted: false,
+      isThereOriginalAttachment: false,
       form: {
+        id: '',
+        company_id: '',
         name: '',
         name_ar: '',
         liecense_number: '',
@@ -394,10 +454,12 @@ export default {
         address: '',
         expired_at: '',
         attachments: null,
+        original_attachment: null,
       },
     };
   },
   computed: {
+    ...mapGetters('companies', ['companiesDropdownGetter']),
     checkAttachments() {
       return !this.form.attachments;
     },
@@ -407,29 +469,37 @@ export default {
       return dirty || validated ? valid : null;
     },
     onSubmit() {
+      console.log('submit');
       this.isSubmitted = true;
       const formData = new FormData();
-      for (let i = 0; i < this.form.attachments.length; i++) {
-        formData.append('attachments[]', this.form.attachments[i]);
+      if (this.form.attachments) {
+        for (let i = 0; i < this.form.attachments.length; i++) {
+          formData.append('attachments[]', this.form.attachments[i]);
+        }
       }
 
       for (let i in this.form) {
-        if (i == 'attachments') {
+        if (i == 'attachments' || i == 'original_attachment') {
+          continue;
+        }
+        if (i == 'company_id') {
+          formData.append(i, this.form[i].id);
           continue;
         }
         formData.append(i, this.form[i]);
       }
+      formData.append('_method', 'PUT');
       this.$axios
-        .post('/companies', formData, {
+        .post(`/subCompanies/${this.form.id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         })
         .then((_) => {
-          this.$emit('addedSuccessfully');
+          this.$emit('updatedSuccessfully');
         })
         .catch((_) => {
-          this.$emit('addedError');
+          this.$emit('updatedError');
         })
         .finally(() => {
           this.isSubmitted = false;
@@ -440,10 +510,10 @@ export default {
         this.$refs.observer.reset();
       });
     },
+    clearAttachments() {
+      this.form.attachments = null;
+      this.form.original_attachment = null;
+    },
   },
 };
 </script>
-
-<style>
-@import '@/assets/common.css';
-</style>

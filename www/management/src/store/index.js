@@ -3,16 +3,20 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import auth from './auth/index.js';
-import company from './company/index.js';
+import companies from './company/index.js';
 
 const store = new Vuex.Store({
   modules: {
     auth,
-    company,
+    companies,
   },
   state() {
     return {
+      baseUrl: 'http://localhost:8000/storage',
+      main_company: 'الشركة الرئيسية',
       name: 'الاسم',
+      main_company_details: 'تفاصيل الشركة الرئيسية',
+      sub_company_details: 'تفاصيل الشركة الفرعية',
       arabicName: 'الاسم العربي',
       license_number: 'رقم الترخيص',
       central_number: 'رقم المركز',
@@ -20,6 +24,7 @@ const store = new Vuex.Store({
       commercial_register_number: 'رقم السجل التجاري',
       address_automatic_number: 'رقم العنوان الآلي',
       date_of_issuance_of_license: 'تاريخ الإصدار',
+      created_at: 'تاريخ الإضافة',
       expired_at: 'تاريخ الانتهاء',
       license_address: 'عنوان الترخيص',
       address: 'عنوان الشركة',
@@ -38,6 +43,7 @@ const store = new Vuex.Store({
       enterAddress: 'ادخل عنوان الشركة',
       enterDescription: 'ادخل الوصف',
       enterFileNumber: 'ادخل رقم الملف',
+      enterMainCompany: 'ادخل الشركة الرئيسية',
       add: 'إضافة',
       clear: 'مسح',
       edit: 'تعديل',

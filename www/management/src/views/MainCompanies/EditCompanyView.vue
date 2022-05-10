@@ -388,11 +388,8 @@
 </template>
 
 <script>
-import mainCompanyMixin from '@/mixins/mainCompanyMixin';
-
 export default {
   props: ['company'],
-  mixins: [mainCompanyMixin],
   emits: ['updatedSuccessfully', 'updatedError'],
   mounted() {
     console.log(this.company.attachments);
@@ -472,7 +469,6 @@ export default {
     clearForm() {
       requestAnimationFrame(() => {
         this.$refs.observer.reset();
-        this.$emit('addedError');
       });
     },
     clearAttachments() {

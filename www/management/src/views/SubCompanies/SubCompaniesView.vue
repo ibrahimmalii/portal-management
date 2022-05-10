@@ -83,6 +83,12 @@
           width="100"
         ></e-column>
         <e-column
+          field="company.name"
+          :headerText="$store.state.main_company"
+          textAlign="Right"
+          width="90"
+        ></e-column>
+        <e-column
           field="name"
           :headerText="$store.state.name"
           textAlign="Right"
@@ -179,6 +185,12 @@
       locale="ar"
     >
       <e-columns>
+        <e-column
+          field="company.name"
+          :headerText="$store.state.main_company"
+          textAlign="Right"
+          width="90"
+        ></e-column>
         <e-column
           field="name"
           :headerText="$store.state.name"
@@ -280,11 +292,13 @@
 import gridMixin from '@/mixins/gridMixin';
 import toastMixin from '@/mixins/toastMixin';
 
-import AddCompanyView from './AddCompanyView.vue';
-import EditCompanyView from './EditCompanyView.vue';
-import MainCompanyActionsVue from './MainCompanyActions.vue';
+import AddCompanyView from './AddSubCompanyView.vue';
+import EditCompanyView from './EditSubCompanyView.vue';
+import SubCompanyActionsVue from './SubCompanyActions.vue';
 
 import eventBus from '@/eventBus';
+
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   mixins: [gridMixin, toastMixin],
@@ -293,15 +307,16 @@ export default {
     EditCompanyView,
   },
   mounted() {
-    eventBus.$on('delete-company', this.deleteCompany);
-    eventBus.$on('edit-company', this.loadCompanyData);
+    this.getCompaniesDropdown();
+    eventBus.$on('delete-sub-company', this.deleteCompany);
+    eventBus.$on('edit-sub-company', this.loadCompanyData);
     this.getCompanies();
   },
   data() {
     return {
       position: { X: 'Right', Y: 'Bottom' },
       destData: [],
-      title: 'الشركات الأساسية',
+      title: 'الشركات الفرعية',
       type: 'شركة جديدة',
       addCompany: 'إضافة شركة جديدة',
       editCompany: 'تعديل شركة',
@@ -311,14 +326,15 @@ export default {
       data: [],
       companyData: [],
       cTemplate: function () {
-        return { template: MainCompanyActionsVue };
+        return { template: SubCompanyActionsVue };
       },
     };
   },
   methods: {
+    ...mapActions('companies', ['getCompaniesDropdown']),
     getCompanies() {
       this.$axios
-        .get('companies')
+        .get('subCompanies')
         .then((res) => {
           this.data = res.data;
           this.isDataLoaded = true;
@@ -332,7 +348,7 @@ export default {
       this.isCompanyDataLoaded = false;
       this.$bvModal.show('edit-company-modal');
       this.$axios
-        .get(`companies/${data.id}`)
+        .get(`subCompanies/${data.id}`)
         .then((res) => {
           this.companyData = res.data;
           this.isCompanyDataLoaded = true;
@@ -358,11 +374,10 @@ export default {
       });
     },
     deleteCompany(data) {
-      console.log('from delete');
       this.$axios
-        .delete(`companies/${data.id}`)
+        .delete(`subCompanies/${data.id}`)
         .then(() => {
-          eventBus.$emit('company-deleted', data.id);
+          eventBus.$emit('sub-company-deleted', data.id);
           this.$refs.successToast.show({
             template: this.$store.state.successClear,
           });
@@ -394,6 +409,9 @@ export default {
         template: this.$store.state.errorUpdate,
       });
     },
+  },
+  computed: {
+    ...mapGetters('companies', ['companiesDropdownGetter']),
   },
 };
 </script>

@@ -4,6 +4,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import VueI18n from 'vue-i18n';
 import axios from 'axios';
 import store from './store/index.js';
+import vSelect from 'vue-select';
 
 // Import shared components
 import TheHeader from './components/TheHeader.vue';
@@ -69,5 +70,6 @@ const app = createApp({
 app.component('the-header', TheHeader);
 app.component('the-sidebar', TheSidebar);
 app.component('the-title', TheTitle);
+app.component('v-select', vSelect);
 
 app.mount('#app');

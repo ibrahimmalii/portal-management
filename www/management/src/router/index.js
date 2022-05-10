@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
@@ -11,46 +11,49 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/Auth/LoginView.vue')
+      component: () => import('../views/Auth/LoginView.vue'),
     },
     {
       path: '/accountant-profile',
       name: 'profile',
-      component: () => import('../views/Accountant/ProfileView.vue')
+      component: () => import('../views/Accountant/ProfileView.vue'),
     },
     {
       path: '/accountant/company',
       name: 'company',
-      component: () => import('../views/Accountant/Company.vue')
+      component: () => import('../views/Accountant/Company.vue'),
     },
     {
       path: '/employees',
       name: 'employees',
-      component: () => import('../views/Employees/EmployeesView.vue')
+      component: () => import('../views/Employees/EmployeesView.vue'),
     },
     {
       path: '/companies',
+      name: 'companies',
       component: () => import('../views/MainCompanies/CompaniesView.vue'),
-      children: [
-        {
-          path: '',
-          name: 'companies',
-          component: () => import('../views/MainCompanies/CompaniesView.vue')
-        },
-        {
-          path: '/:id',
-          name: 'main-company',
-          component: () => import('../views/MainCompanies/CompanyView.vue')
-        }
-      ]
-    }
-  ]
-})
+    },
+    {
+      path: '/companies/:id',
+      name: 'browse-company',
+      component: () => import('../views/MainCompanies/BrowseCompany.vue'),
+    },
+    {
+      path: '/sub-companies',
+      name: 'sub-companies',
+      component: () => import('../views/SubCompanies/SubCompaniesView.vue'),
+    },
+    {
+      path: '/sub-companies/:id',
+      name: 'browse-sub-company',
+      component: () => import('../views/SubCompanies/BrowseSubCompany.vue'),
+    },
+  ],
+});
 
-
-export default router
+export default router;

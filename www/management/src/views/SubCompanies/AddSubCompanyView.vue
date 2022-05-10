@@ -4,28 +4,6 @@
       <b-form @submit.prevent="handleSubmit(onSubmit)">
         <b-row class="my-1 text-end mb-3">
           <b-col>
-            <label for="input-small">{{ $store.state.license_number }}</label>
-            <validation-provider
-              v-slot="validationContext"
-              :name="$store.state.license_number"
-              rules="required"
-              vid="license_number"
-            >
-              <b-form-input
-                id="license_number"
-                v-model="form.license_number"
-                class="text-end"
-                size="md"
-                :placeholder="$store.state.enterLicenseNumber"
-              ></b-form-input>
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </validation-provider>
-          </b-col>
-          <b-col>
             <label for="input-small">{{ $store.state.arabicName }}</label>
             <validation-provider
               v-slot="validationContext"
@@ -68,14 +46,61 @@
               </b-form-invalid-feedback>
             </validation-provider>
           </b-col>
+          <b-col>
+            <label for="input-small">{{ $store.state.main_company }}</label>
+            <validation-provider
+              v-slot="validationContext"
+              :name="$store.state.main_company"
+              rules="required"
+              vid="main_company"
+            >
+              <v-select
+                id="main_company"
+                v-model="form.company_id"
+                size="md"
+                dir="rtl"
+                :placeholder="$store.state.enterMainCompany"
+                :options="companiesDropdownGetter"
+                label="name"
+                value="id"
+              ></v-select>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </validation-provider>
+          </b-col>
         </b-row>
         <b-row class="my-1 text-end mb-3">
+          <b-col>
+            <label for="input-small">{{ $store.state.license_number }}</label>
+            <validation-provider
+              v-slot="validationContext"
+              :name="$store.state.license_number"
+              rules="required|numeric"
+              vid="license_number"
+            >
+              <b-form-input
+                id="license_number"
+                v-model="form.license_number"
+                class="text-end"
+                size="md"
+                :placeholder="$store.state.enterLicenseNumber"
+              ></b-form-input>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </validation-provider>
+          </b-col>
           <b-col>
             <label for="input-small">{{ $store.state.central_number }}</label>
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.central_number"
-              rules="required"
+              rules="required|numeric"
               vid="central_number"
             >
               <b-form-input
@@ -99,7 +124,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.civil_authority_number"
-              rules="required"
+              rules="required|numeric"
               vid="civil_authority_number"
             >
               <b-form-input
@@ -115,6 +140,8 @@
               </b-form-invalid-feedback>
             </validation-provider>
           </b-col>
+        </b-row>
+        <b-row class="my-1 text-end mb-3">
           <b-col>
             <label for="input-small">{{
               $store.state.commercial_register_number
@@ -122,7 +149,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.commercial_register_number"
-              rules="required"
+              rules="required|numeric"
               vid="commercial_register_number"
             >
               <b-form-input
@@ -139,8 +166,6 @@
               </b-form-invalid-feedback>
             </validation-provider>
           </b-col>
-        </b-row>
-        <b-row class="my-1 text-end mb-3">
           <b-col>
             <label for="input-small">{{
               $store.state.address_automatic_number
@@ -148,7 +173,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.address_automatic_number"
-              rules="required"
+              rules="required|numeric"
               vid="address_automatic_number"
             >
               <b-form-input
@@ -169,7 +194,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.file_number"
-              rules="required"
+              rules="required|numeric"
               vid="file_number"
             >
               <b-form-input
@@ -374,6 +399,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'AddCompanyView',
   emits: ['addedSuccessfully', 'addeddError'],
@@ -381,6 +407,7 @@ export default {
     return {
       isSubmitted: false,
       form: {
+        company_id: null,
         name: '',
         name_ar: '',
         liecense_number: '',
@@ -397,7 +424,16 @@ export default {
       },
     };
   },
+  watch: {
+    form(value) {
+      console.log(value);
+    },
+    companiesDropdownGetter(value) {
+      console.log(value);
+    },
+  },
   computed: {
+    ...mapGetters('companies', ['companiesDropdownGetter']),
     checkAttachments() {
       return !this.form.attachments;
     },
@@ -417,10 +453,14 @@ export default {
         if (i == 'attachments') {
           continue;
         }
+        if (i == 'company_id') {
+          formData.append(i, this.form[i].id);
+          continue;
+        }
         formData.append(i, this.form[i]);
       }
       this.$axios
-        .post('/companies', formData, {
+        .post('/subCompanies', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -445,5 +485,6 @@ export default {
 </script>
 
 <style>
+@import 'vue-select/dist/vue-select.css';
 @import '@/assets/common.css';
 </style>

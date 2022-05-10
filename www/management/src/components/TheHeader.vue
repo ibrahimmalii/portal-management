@@ -8,16 +8,13 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'companies' }">الشركات الرئيسية</b-nav-item>
-          <b-nav-item>الشركات الفرعية</b-nav-item>
+          <b-nav-item :to="{ name: 'sub-companies' }"
+            >الشركات الفرعية</b-nav-item
+          >
           <b-nav-item :to="{ name: 'employees' }">الموظفين</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="me-auto">
-          <b-nav-item-dropdown text="اللغة " right>
-            <b-dropdown-item>EN</b-dropdown-item>
-            <b-dropdown-item>AR</b-dropdown-item>
-          </b-nav-item-dropdown>
-
           <b-nav-item-dropdown right>
             <template #button-content v-if="getLoggedStatus">
               <i class="fa fa-user"></i>

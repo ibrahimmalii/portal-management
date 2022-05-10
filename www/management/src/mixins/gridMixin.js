@@ -79,6 +79,8 @@ L10n.load({
       UnGroup: 'إلغاء تجميع الأعمدة',
       Item: 'عنصر',
       Items: 'عناصر',
+      totalItemsInfo: 'totalItemsInfo',
+      totalItemInfo: 'عنصر',
       Search: 'بحث',
       Print: 'طباعة',
       Options: 'خيارات',
