@@ -58,6 +58,10 @@ const router = new VueRouter({
       name: 'browse-sub-company',
       component: () => import('../views/SubCompanies/BrowseSubCompany.vue'),
     },
+    {
+      path: '/test',
+      component: () => import('../views/Test.vue'),
+    },
   ],
 });
 

@@ -69,6 +69,7 @@ const store = new Vuex.Store({
       delete_confirmation: 'تأكيد الحذف',
       confirm: 'تأكيد',
       actions: 'الإجراءات',
+      main_companies: 'الشركات الرئيسية',
       sub_companies: 'الشركات الفرعية',
       sub_company: 'الشركة الفرعية',
       employees: 'الموظفين',
@@ -85,6 +86,10 @@ const store = new Vuex.Store({
       userDetails: 'تفاصيل الموظف',
       no_company: 'لا يوجد شركات',
       no_sub_company: 'لا يوجد شركات فرعية',
+      menu: 'القائمة',
+      liabilities: 'الخصوصيات',
+      profile: 'الملف الشخصي',
+      setting: 'الإعدادات',
     };
   },
 });

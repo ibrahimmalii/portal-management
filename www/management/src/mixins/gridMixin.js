@@ -31,7 +31,7 @@ export default {
   methods: {
     toolbarClick(args) {
       if (args.item.id === 'Grid_pdfexport') {
-        this.$refs.grid.pdfExport(null);
+        this.$refs.grid.pdfExport();
       }
 
       if (args.item.id === 'Grid_excelexport') {
@@ -39,7 +39,6 @@ export default {
       }
 
       if (args.item.id === 'DestGrid_pdfexport') {
-        // 'Grid_pdfexport' -> Grid component id + _ + toolbar item name
         this.$refs.destGrid.pdfExport();
       }
 
@@ -58,8 +57,8 @@ export default {
       Filter,
       Group,
       Toolbar,
-      Search,
       PdfExport,
+      Search,
       Resize,
       ColumnMenu,
       RowDD,

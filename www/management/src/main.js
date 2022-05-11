@@ -6,6 +6,11 @@ import axios from 'axios';
 import store from './store/index.js';
 import vSelect from 'vue-select';
 
+import { registerLicense } from '@syncfusion/ej2-base';
+registerLicense(
+  'ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkBiWH9ac3BWQGBeVUw='
+);
+
 // Import shared components
 import TheHeader from './components/TheHeader.vue';
 import TheSidebar from './components/TheSidebar.vue';
@@ -22,7 +27,10 @@ import router from './router';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { ToastPlugin } from '@syncfusion/ej2-vue-notifications';
-// import { ToastPlugin } from '@syncfusion/ej2-vue-notifications';
+import {
+  SidebarComponent,
+  SidebarPlugin,
+} from '@syncfusion/ej2-vue-navigations';
 import { GridPlugin } from '@syncfusion/ej2-vue-grids';
 import {
   extend,
@@ -55,6 +63,7 @@ if (locale === 'ar') {
 }
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
+Vue.component(SidebarPlugin.name, SidebarComponent);
 import './translations/common_translations.json';
 
 const i18n = new VueI18n({

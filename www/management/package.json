@@ -14,6 +14,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "@syncfusion/ej2-vue-calendars": "^20.1.47",
     "@syncfusion/ej2-vue-grids": "^20.1.52",
+    "@syncfusion/ej2-vue-navigations": "^20.1.51",
     "@syncfusion/ej2-vue-notifications": "^20.1.47",
     "@vue/composition-api": "^1.4.6",
     "axios": "^0.27.2",

@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <b-navbar class="" toggleable="lg" type="dark" variant="primary">
-      <b-navbar-brand to="/">Liabilities</b-navbar-brand>
+  <div class="bg-primary" style="height: 60px">
+    <b-navbar
+      class="navbar-expand-lg container"
+      toggleable="lg"
+      type="dark"
+      variant="primary"
+      container
+    >
+      <b-navbar-brand to="/" class="text-black">Liabilities</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,7 +17,9 @@
           <b-nav-item :to="{ name: 'sub-companies' }"
             >الشركات الفرعية</b-nav-item
           >
-          <b-nav-item :to="{ name: 'employees' }">الموظفين</b-nav-item>
+          <b-nav-item :to="{ name: 'employees' }">{{
+            $store.state.employees
+          }}</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="me-auto">
