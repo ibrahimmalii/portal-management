@@ -160,7 +160,7 @@
       <b-spinner variant="primary"></b-spinner>
     </div>
 
-    <ejs-grid
+    <!-- <ejs-grid
       class="my-5"
       ref="destGrid"
       id="DestGrid"
@@ -258,7 +258,8 @@
           width="90"
         ></e-column>
       </e-columns>
-    </ejs-grid>
+    </ejs-grid> -->
+    <the-copy-grid-vue></the-copy-grid-vue>
 
     <ejs-toast
       ref="successToast"
@@ -295,6 +296,7 @@ import toastMixin from '@/mixins/toastMixin';
 import AddCompanyView from './AddSubCompanyView.vue';
 import EditCompanyView from './EditSubCompanyView.vue';
 import SubCompanyActionsVue from './SubCompanyActions.vue';
+import TheCopyGridVue from '@/components/Companies/TheCopyGrid.vue';
 
 import eventBus from '@/eventBus';
 
@@ -305,6 +307,7 @@ export default {
   components: {
     AddCompanyView,
     EditCompanyView,
+    TheCopyGridVue,
   },
   mounted() {
     this.getCompaniesDropdown();

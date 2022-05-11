@@ -4,48 +4,159 @@
       :title="$store.state.sub_company_details"
       :type="$store.state.browse"
     ></the-title>
+
     <b-card v-if="!isLoaded" :title="companyName" :sub-title="companyAr">
       <b-card-text>
         {{ $store.state.main_company }}:
         <router-link
           :to="{ name: 'browse-company', params: { id: mainCompany.id } }"
+          target="_blank"
         >
-          {{ mainCompany?.name }}
+          {{ mainCompany.name }}
         </router-link>
       </b-card-text>
-      <b-card-text>
-        {{ $store.state.description }}:
-        {{ description }}
-      </b-card-text>
-      <b-card-text>{{ $store.state.address }}: {{ address }}</b-card-text>
-      <b-card-text
-        >{{ $store.state.license_address }}: {{ licenseAddr }}</b-card-text
-      >
-      <b-card-text
-        >{{ $store.state.license_number }}: {{ licenseNum }}</b-card-text
-      >
-      <b-card-text
-        >{{ $store.state.address_automatic_number }}:
-        {{ addressAutomaticNum }}</b-card-text
-      >
-      <b-card-text
-        >{{ $store.state.central_number }}: {{ centralNum }}</b-card-text
-      >
-      <b-card-text
-        >{{ $store.state.civil_authority_number }}:
-        {{ civilAuthNum }}</b-card-text
-      >
-      <b-card-text
-        >{{ $store.state.commercial_register_number }}:
-        {{ commercialRegister }}</b-card-text
-      >
-      <b-card-text>{{ $store.state.file_number }}: {{ fileNum }}</b-card-text>
-      <b-card-text
-        >{{ $store.state.date_of_issuance_of_license }}:
-        {{ dateOfIssuance }}</b-card-text
-      >
-      <b-card-text>{{ $store.state.created_at }}: {{ createdAt }}</b-card-text>
-      <b-card-text>{{ $store.state.expired_at }}: {{ expiredAt }}</b-card-text>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{ $store.state.license_number }}</label>
+          <b-form-input
+            id="license_number"
+            class="text-end"
+            size="md"
+            :value="licenseNum"
+            disabled
+          ></b-form-input>
+        </b-col>
+        <b-col>
+          <label for="input-small">{{
+            $store.state.address_automatic_number
+          }}</label>
+          <b-form-input
+            id="addressAutomaticNum"
+            class="text-end"
+            size="md"
+            :value="addressAutomaticNum"
+            disabled
+          ></b-form-input>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{ $store.state.central_number }}</label>
+          <b-form-input
+            id="centralNum"
+            class="text-end"
+            size="md"
+            :value="centralNum"
+            disabled
+          ></b-form-input>
+        </b-col>
+        <b-col>
+          <label for="input-small">{{
+            $store.state.civil_authority_number
+          }}</label>
+          <b-form-input
+            id="civilAuthNum"
+            class="text-end"
+            size="md"
+            :value="civilAuthNum"
+            disabled
+          ></b-form-input>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{
+            $store.state.commercial_register_number
+          }}</label>
+          <b-form-input
+            id="commercialRegister"
+            class="text-end"
+            size="md"
+            :value="commercialRegister"
+            disabled
+          ></b-form-input>
+        </b-col>
+        <b-col>
+          <label for="input-small">{{ $store.state.file_number }}</label>
+          <b-form-input
+            id="fileNum"
+            class="text-end"
+            size="md"
+            :value="fileNum"
+            disabled
+          ></b-form-input>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{
+            $store.state.date_of_issuance_of_license
+          }}</label>
+          <b-form-input
+            id="dateOfIssuance"
+            class="text-end"
+            size="md"
+            :value="dateOfIssuance"
+            disabled
+          ></b-form-input>
+        </b-col>
+        <b-col>
+          <label for="input-small">{{ $store.state.created_at }}</label>
+          <b-form-input
+            id="createdAt"
+            class="text-end"
+            size="md"
+            :value="createdAt"
+            disabled
+          ></b-form-input>
+        </b-col>
+        <b-col>
+          <label for="input-small">{{ $store.state.expired_at }}</label>
+          <b-form-input
+            id="expiredAt"
+            class="text-end"
+            size="md"
+            :value="expiredAt"
+            disabled
+          ></b-form-input>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{ $store.state.address }}</label>
+          <b-form-textarea
+            id="address"
+            class="text-end"
+            size="md"
+            :value="address"
+            disabled
+          ></b-form-textarea>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{ $store.state.license_address }}</label>
+          <b-form-textarea
+            id="licenseAddr"
+            class="text-end"
+            size="md"
+            :value="licenseAddr"
+            disabled
+          ></b-form-textarea>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{ $store.state.description }}</label>
+          <b-form-textarea
+            id="description"
+            class="text-end"
+            size="md"
+            :value="description"
+            disabled
+          ></b-form-textarea>
+        </b-col>
+      </b-row>
       <b-card-text
         >{{ $store.state.attachments }}:
         <b-link
@@ -57,19 +168,45 @@
           <i class="fa fa-link" style="font-size: 12px"></i>
         </b-link>
       </b-card-text>
+      <!-- <b-row class="my-1 text-end mb-3">
+        <b-col>
+          <label for="input-small">{{ $store.state.employees }}</label>
+          <v-select
+            id="employees"
+            :options="users"
+            :placeholder="$store.state.employees_of_company"
+            size="md"
+            dir="rtl"
+            label="name"
+            v-model="userSelectValue"
+            :disabled="!isUserDataLoaded"
+          ></v-select>
+        </b-col>
+      </b-row> -->
     </b-card>
     <b-card class="text-center" v-else>
       <b-spinner variant="primary" label="Spinning"></b-spinner>
     </b-card>
+    <the-title :title="$store.state.employees"></the-title>
+    <the-copy-employee-grid :data="users"></the-copy-employee-grid>
+    <!-- <the-employee-details :userData="userData"></the-employee-details> -->
   </div>
 </template>
 
 <script>
+import TheEmployeeDetails from '@/components/Employees/TheEmployeeDetails.vue';
+import TheCopyEmployeeGrid from '@/components/Employees/TheCopyGrid.vue';
+
 export default {
   name: 'company',
+  components: {
+    TheEmployeeDetails,
+    TheCopyEmployeeGrid,
+  },
   data() {
     return {
       isLoaded: false,
+      isUserDataLoaded: true,
       mainCompany: '',
       companyName: '',
       companyAr: '',
@@ -86,10 +223,20 @@ export default {
       expiredAt: '',
       fileNum: '',
       attachments: [],
+      users: [],
+      userSelectValue: null,
+      userData: null,
     };
   },
   mounted() {
     this.loadCompanyData(this.$route.params.id);
+  },
+  watch: {
+    userSelectValue(value) {
+      if (value) {
+        this.loadUserData(value.id);
+      }
+    },
   },
   methods: {
     convertToDate(date) {
@@ -119,14 +266,31 @@ export default {
           this.expiredAt = this.convertToDate(company.expired_at);
           this.fileNum = company.file_number;
           this.attachments = company.attachments;
+          this.users = company.users;
         })
         .catch(console.error)
         .finally(() => {
           this.isLoaded = false;
         });
     },
+    loadUserData(id) {
+      console.log('called');
+      this.isUserDataLoaded = false;
+      this.$axios
+        .get(`users/${id}`)
+        .then((res) => {
+          this.userData = res.data;
+        })
+        .catch(console.error)
+        .finally(() => {
+          this.isUserDataLoaded = true;
+        });
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+@import 'vue-select/dist/vue-select.css';
+@import '@/assets/common.css';
+</style>

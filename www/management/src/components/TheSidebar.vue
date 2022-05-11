@@ -8,7 +8,7 @@
       <button class="w3-bar-item w3-button w3-large" @click="w3_close">
         اغلاق &times;
       </button>
-      <router-link :to="{name: 'profile'}" custom v-slot="{ navigate }">
+      <router-link :to="{ name: 'profile' }" custom v-slot="{ navigate }">
         <span
           class="w3-bar-item w3-button"
           @click="navigate"
@@ -22,14 +22,14 @@
       </button>
       <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
         <b-card-body>
-          <router-link :to="{name: 'companies'}" custom v-slot="{ navigate }">
+          <router-link :to="{ name: 'companies' }" custom v-slot="{ navigate }">
             <span
               class="w3-bar-item w3-button"
               @click="navigate"
               @keypress.enter="navigate"
               role="link"
-              >الشركات <i class="fa fa-home"></i></span
-            >
+              >الشركات <i class="fa fa-home"></i
+            ></span>
           </router-link>
         </b-card-body>
       </b-collapse>
@@ -39,14 +39,18 @@
       </button>
       <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
         <b-card-body>
-          <router-link to="/about" custom v-slot="{ navigate }">
+          <router-link
+            :to="{ name: 'sub-companies' }"
+            custom
+            v-slot="{ navigate }"
+          >
             <span
               class="w3-bar-item w3-button"
               @click="navigate"
               @keypress.enter="navigate"
               role="link"
-              >About Us</span
-            >
+              >الشركات <i class="fa fa-home"></i
+            ></span>
           </router-link>
         </b-card-body>
       </b-collapse>

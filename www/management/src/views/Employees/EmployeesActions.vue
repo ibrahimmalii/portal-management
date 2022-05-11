@@ -19,16 +19,6 @@
       >
         <i class="fa fa-edit"></i>
       </b-button>
-      <!-- <b-button
-        v-b-tooltip="toolTipOptions"
-        :disabled="deleting"
-        :title="$store.state.delete"
-        variant="light"
-        @click="deleteClicked"
-      >
-        <i v-if="!deleting" class="fa fa-trash"></i>
-        <b-spinner v-else small :style="spinnerStyle"></b-spinner>
-      </b-button> -->
     </b-button-group>
   </div>
 </template>
