@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\SubCompaniesController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,6 @@ Route::delete('/companies/{company}', [CompanyController::class, 'delete']);
 Route::post('/companies/{company}', [CompanyController::class, 'update']);
 
 Route::resource('subCompanies', SubCompaniesController::class);
+Route::resource('users', UserController::class);
 
 Route::get('/getAvaliableUsers/{company}', [CompanyController::class, 'getAvaliableUsersInCompany'])->name('getAvaliableUsers');

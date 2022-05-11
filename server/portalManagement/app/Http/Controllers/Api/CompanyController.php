@@ -49,7 +49,7 @@ class CompanyController extends Controller
     public function show(Company $company){
         $response =  Company::with(['attachments' => function ($query) {
             $query->select('id', 'company_id', 'attachment_path');
-        }])->where('id', $company->id)->first();
+        }, 'sub_companies', 'users'])->where('id', $company->id)->first();
         return response()->json($response);
     }
 

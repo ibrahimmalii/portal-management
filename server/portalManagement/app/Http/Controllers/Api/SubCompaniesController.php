@@ -68,7 +68,7 @@ class SubCompaniesController extends Controller
             $query->select('id', 'sub_company_id',  'attachment_path');
         }, 'company' => function ($query) {
             $query->select('id', 'name');
-        }])->where('id', $subCompany->id)->first();
+        }, 'users'])->where('id', $subCompany->id)->first();
         return response()->json($response);
     }
 

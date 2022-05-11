@@ -32,4 +32,9 @@ class SubCompany extends Model
     {
         return $this->hasMany(SubCompanyAttachment::class, 'sub_company_id', 'id');
     }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 }
