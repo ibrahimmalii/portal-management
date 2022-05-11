@@ -6,8 +6,8 @@
         :title="$store.state.browse"
         class="btn"
         variant="light"
-        @click="viewCompany"
-        :to="{ name: 'browse-company', params: { id: data.id } }"
+        @click="viewEmployee"
+        :to="{ name: 'browse-employee', params: { id: data.id } }"
       >
         <i class="fa fa-info"> </i>
       </router-link>
@@ -15,7 +15,7 @@
         v-b-tooltip="toolTipOptions"
         :title="$store.state.edit"
         variant="light"
-        @click="editCompany"
+        @click="editEmployee"
       >
         <i class="fa fa-edit"></i>
       </b-button>
@@ -36,7 +36,7 @@ export default {
     };
   },
   mounted() {
-    eventBus.$on('company-deleted', this.deleteComplete);
+    // eventBus.$on('company-deleted', this.deleteComplete);
   },
   computed: {
     toolTipOptions() {
@@ -52,23 +52,22 @@ export default {
     },
   },
   methods: {
-    editCompany() {
-      eventBus.$emit('edit-company', this.data);
+    editEmployee() {
+      eventBus.$emit('edit-employee', this.data);
     },
-    deleteClicked() {
-      this.confirmDelete(() => {
-        this.deleting = true;
-        eventBus.$emit('delete-company', this.data);
-      });
-    },
-    deleteComplete(id) {
-      if (id === this.data?.id) {
-        this.deleting = false;
-      }
-    },
-    viewCompany() {
-      console.log('done');
-      eventBus.$emit('view-company', this.data);
+    // deleteClicked() {
+    //   this.confirmDelete(() => {
+    //     this.deleting = true;
+    //     eventBus.$emit('delete-company', this.data);
+    //   });
+    // },
+    // deleteComplete(id) {
+    //   if (id === this.data?.id) {
+    //     this.deleting = false;
+    //   }
+    // },
+    viewEmployee() {
+      eventBus.$emit('view-employee', this.data);
     },
   },
 };

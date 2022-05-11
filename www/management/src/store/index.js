@@ -70,6 +70,7 @@ const store = new Vuex.Store({
       confirm: 'تأكيد',
       actions: 'الإجراءات',
       sub_companies: 'الشركات الفرعية',
+      sub_company: 'الشركة الفرعية',
       employees: 'الموظفين',
       employees_of_company: 'الموظفين التابعين للشركة',
       email: 'البريد الإلكتروني',
@@ -82,6 +83,8 @@ const store = new Vuex.Store({
       passport_expiry_date: 'تاريخ انتهاء صلاحية جواز السفر',
       residence_expiry_date: 'تاريخ انتهاء صلاحية الإقامة',
       userDetails: 'تفاصيل الموظف',
+      no_company: 'لا يوجد شركات',
+      no_sub_company: 'لا يوجد شركات فرعية',
     };
   },
 });

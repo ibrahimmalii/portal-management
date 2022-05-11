@@ -1,11 +1,11 @@
 <template>
   <div>
-    <the-title :title="$store.state.employees" :type="type"></the-title>
-    <b-button class="mb-2" v-b-modal.add-company-modal variant="primary">
+    <the-title :title="$store.state.employees"></the-title>
+    <b-button class="mb-2" v-b-modal.add-employee-modal variant="primary">
       {{ add }} <i class="fa fa-plus mr-2"></i>
     </b-button>
     <!-- <b-modal
-      id="add-company-modal"
+      id="add-employee-modal"
       scrollable
       :title="addCompany"
       centered
@@ -180,6 +180,7 @@
 import gridMixin from '@/mixins/gridMixin';
 import toastMixin from '@/mixins/toastMixin';
 import EmployeesActions from './EmployeesActions.vue';
+import eventBus from '@/eventBus';
 
 export default {
   mixins: [gridMixin, toastMixin],
@@ -187,13 +188,13 @@ export default {
     EmployeesActions,
   },
   mounted() {
+    eventBus.$on('edit-employee', this.editEmployee);
+    eventBus.$on('view-employee', this.viewEmployee);
     this.loadEmployeesData();
   },
   data() {
     return {
       position: { X: 'Right', Y: 'Bottom' },
-      title: 'الشركات الأساسية',
-      type: 'شركة جديدة',
       addCompany: 'إضافة شركة جديدة',
       editCompany: 'تعديل شركة',
       add: 'إضافة',
@@ -219,6 +220,8 @@ export default {
           this.isDataLoaded = true;
         });
     },
+    editEmployee() {},
+    viewEmployee() {},
   },
 };
 </script>

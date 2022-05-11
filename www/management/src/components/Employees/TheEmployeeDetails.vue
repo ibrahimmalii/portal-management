@@ -12,6 +12,38 @@
       </b-row>
       <b-row class="my-1 text-end mb-3">
         <b-col>
+          <b-card-text>
+            {{ $store.state.main_company }}:
+            <router-link
+              v-if="userData.main_company"
+              :to="{
+                name: 'browse-company',
+                params: { id: userData.company.id },
+              }"
+              target="_blank"
+            >
+              {{ userData?.company.name }}
+            </router-link>
+            <span v-else>{{ $store.state.no_company }}</span>
+          </b-card-text>
+          <b-card-text>
+            {{ $store.state.sub_company }}:
+            <router-link
+              v-if="userData.sub_company"
+              :to="{
+                name: 'browse-sub-company',
+                params: { id: userData.sub_company.id },
+              }"
+              target="_blank"
+            >
+              {{ userData.sub_company.name }}
+            </router-link>
+            <span v-else>{{ $store.state.no_sub_company }}</span>
+          </b-card-text>
+        </b-col>
+      </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <b-col>
           <label for="input-small">{{ $store.state.nationality_ar }}</label>
           <b-form-input
             id="nationality_ar"

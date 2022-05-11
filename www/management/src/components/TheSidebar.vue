@@ -56,10 +56,27 @@
       </b-collapse>
 
       <button class="w3-button w3-block w3-left-align" v-b-toggle.accordion-3>
+        {{ $store.state.employees }} <i class="fa fa-caret-down"></i>
+      </button>
+      <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+        <b-card-body>
+          <router-link :to="{ name: 'employees' }" custom v-slot="{ navigate }">
+            <span
+              class="w3-bar-item w3-button"
+              @click="navigate"
+              @keypress.enter="navigate"
+              role="link"
+              >{{ $store.state.employees }} <i class="fa fa-user"></i
+            ></span>
+          </router-link>
+        </b-card-body>
+      </b-collapse>
+
+      <button class="w3-button w3-block w3-left-align" v-b-toggle.accordion-4>
         خصومات الموظفين <i class="fa fa-caret-down"></i>
       </button>
       <b-collapse
-        id="accordion-3"
+        id="accordion-4"
         visible
         accordion="my-accordion"
         role="tabpanel"

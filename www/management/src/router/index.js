@@ -34,6 +34,11 @@ const router = new VueRouter({
       component: () => import('../views/Employees/EmployeesView.vue'),
     },
     {
+      path: '/employee/:id',
+      name: 'browse-employee',
+      component: () => import('../views/Employees/BrowseEmployee.vue'),
+    },
+    {
       path: '/companies',
       name: 'companies',
       component: () => import('../views/MainCompanies/CompaniesView.vue'),
