@@ -94,9 +94,10 @@
           textAlign="Right"
           width="120"
         ></e-column>
+
         <e-column
           field="nationality"
-          :headerText="$store.state.license_number"
+          :headerText="$store.state.nationality_ar"
           textAlign="Right"
           width="90"
         ></e-column>
