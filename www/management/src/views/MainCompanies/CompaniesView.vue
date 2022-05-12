@@ -243,7 +243,6 @@ export default {
         .get(`companies/${data.id}`)
         .then((res) => {
           this.companyData = res.data;
-          this.isCompanyDataLoaded = true;
         })
         .catch(console.error)
         .finally(() => {
@@ -257,12 +256,9 @@ export default {
         template: this.$store.state.successAdd,
       });
     },
-    addedError() {
-      console.log(this.$bvModal.hide());
-      this.$bvModal.hide('add-company-modal');
-      this.getCompanies();
+    addedError(errors) {
       this.$refs.errorToast.show({
-        template: this.$store.state.errorAdd,
+        template: errors.response.data.message,
       });
     },
     deleteCompany(data) {
@@ -295,11 +291,9 @@ export default {
         template: this.$store.state.successUpdate,
       });
     },
-    updatedError() {
-      this.$bvModal.hide('edit-company-modal');
-      this.getCompanies();
+    updatedError(errors) {
       this.$refs.errorToast.show({
-        template: this.$store.state.errorUpdate,
+        template: errors.response.data.message,
       });
     },
   },

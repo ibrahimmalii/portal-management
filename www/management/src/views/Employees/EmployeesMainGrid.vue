@@ -4,20 +4,20 @@
     <b-button class="mb-2" v-b-modal.add-employee-modal variant="primary">
       {{ add }} <i class="fa fa-plus mr-2"></i>
     </b-button>
-    <!-- <b-modal
+    <b-modal
       id="add-employee-modal"
       scrollable
-      :title="addCompany"
+      :title="add_employee"
       centered
       hide-footer
       size="xl"
     >
-      <add-company-view
-        @addedSuccessfully="addeddSuccessfully"
+      <add-employee-view
+        @addedSuccessfully="addedSuccessfully"
         @addedError="addedError"
         v-if="isDataLoaded"
       >
-      </add-company-view>
+      </add-employee-view>
       <div v-else class="d-flex justify-content-center my-3">
         <b-spinner
           variant="primary"
@@ -25,23 +25,23 @@
           style="width: 3rem; height: 3rem"
         ></b-spinner>
       </div>
-    </b-modal> -->
+    </b-modal>
 
-    <!-- <b-modal
-      id="edit-company-modal"
+    <b-modal
+      id="edit-employee-modal"
       scrollable
-      :title="editCompany"
+      :title="edit_employee"
       centered
       hide-footer
       size="xl"
     >
-      <edit-company-view
-        v-if="isCompanyDataLoaded"
+      <edit-employee-view
+        v-if="isEmployeeDataLoaded"
         @updatedSuccessfully="updatedSuccessfully"
         @updatedError="updatedError"
-        :company="companyData"
+        :userData="userData"
       >
-      </edit-company-view>
+      </edit-employee-view>
       <div v-else class="d-flex justify-content-center my-3">
         <b-spinner
           variant="primary"
@@ -49,7 +49,7 @@
           style="width: 3rem; height: 3rem"
         ></b-spinner>
       </div>
-    </b-modal> -->
+    </b-modal>
 
     <ejs-grid
       v-if="isDataLoaded"
@@ -181,6 +181,8 @@
 import gridMixin from '@/mixins/gridMixin';
 import toastMixin from '@/mixins/toastMixin';
 import EmployeesActions from './EmployeesActions.vue';
+import AddEmployeeView from './AddEmployeeView.vue';
+import EditEmployeeView from './EditEmployeeView.vue';
 import eventBus from '@/eventBus';
 
 export default {
@@ -189,23 +191,28 @@ export default {
     EmployeesActions,
   },
   mounted() {
-    eventBus.$on('edit-employee', this.editEmployee);
+    eventBus.$on('edit-employee', this.loadEmployeeDetails);
     eventBus.$on('view-employee', this.viewEmployee);
     this.loadEmployeesData();
+  },
+  components: {
+    AddEmployeeView,
+    EditEmployeeView,
   },
   data() {
     return {
       position: { X: 'Right', Y: 'Bottom' },
-      addCompany: 'إضافة شركة جديدة',
-      editCompany: 'تعديل شركة',
+      add_employee: 'إضافة موظف جديد',
+      edit_employee: 'تعديل الموظف',
       add: 'إضافة',
       isDataLoaded: false,
       isCompanyDataLoaded: false,
       data: [],
-      companyData: [],
+      userData: [],
       cTemplate: function () {
         return { template: EmployeesActions };
       },
+      isEmployeeDataLoaded: false,
     };
   },
   methods: {
@@ -214,15 +221,52 @@ export default {
         .get('/users')
         .then((response) => {
           this.data = response.data;
-          this.isDataLoaded = true;
         })
         .catch(console.error)
         .finally(() => {
           this.isDataLoaded = true;
         });
     },
-    editEmployee() {},
+    loadEmployeeDetails(data) {
+      this.isEmployeeDataLoaded = false;
+      this.$bvModal.show('edit-employee-modal');
+      this.$axios
+        .get(`users/${data.id}`)
+        .then((res) => {
+          this.userData = res.data;
+        })
+        .catch(console.error)
+        .finally(() => {
+          this.isEmployeeDataLoaded = true;
+        });
+    },
     viewEmployee() {},
+    addedSuccessfully() {
+      this.$bvModal.hide('add-employee-modal');
+      this.loadEmployeesData();
+      this.$refs.successToast.show({
+        template: this.$store.state.successAdd,
+      });
+    },
+    addedError(errors) {
+      console.log(errors.response.data.message);
+      this.$refs.errorToast.show({
+        template: errors.response.data.message,
+      });
+    },
+    updatedSuccessfully() {
+      this.$bvModal.hide('edit-employee-modal');
+      this.loadEmployeesData();
+      this.$refs.successToast.show({
+        template: this.$store.state.successUpdate,
+      });
+    },
+    updatedError(errors) {
+      console.log(errors.response.data.message);
+      this.$refs.errorToast.show({
+        template: errors.response.data.message,
+      });
+    },
   },
 };
 </script>

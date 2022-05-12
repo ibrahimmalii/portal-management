@@ -468,8 +468,8 @@ export default {
         .then((_) => {
           this.$emit('addedSuccessfully');
         })
-        .catch((_) => {
-          this.$emit('addedError');
+        .catch((errors) => {
+          this.$emit('addedError', errors);
         })
         .finally(() => {
           this.isSubmitted = false;

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-end pt-5">
+  <div class="text-end pt-5" v-if="getLoggedStatus">
     <ejs-sidebar
       class="bg-primary"
       id="dockSidebar"
@@ -9,9 +9,9 @@
       ref="dockSidebar"
       :position="position"
     >
-      <div class="dock">
+      <div class="dock" style="margin-top: 65px">
         <ul>
-          <li class="sidebar-item" id="toggle" v-on:click="toggleClick">
+          <li class="sidebar-item" id="toggle" @click="toggleClick">
             <span class="e-icons expand"></span>
             <span class="e-text" title="menu">{{ $store.state.menu }}</span>
           </li>
@@ -21,19 +21,22 @@
               $store.state.profile
             }}</span>
           </li>
-          <li class="sidebar-item">
-            <span class="e-icons home"></span>
-            <span class="e-text" title="home">{{
-              $store.state.main_companies
-            }}</span>
+          <li class="sidebar-item" @click="$router.push({ name: 'companies' })">
+            <span class="e-icons home"> </span>
+            <span class="e-text" title="home">
+              {{ $store.state.main_companies }}
+            </span>
           </li>
-          <li class="sidebar-item">
+          <li
+            class="sidebar-item"
+            @click="$router.push({ name: 'sub-companies' })"
+          >
             <span class="e-icons e-table-insert-row"></span>
             <span class="e-text" title="sub_companies">{{
               $store.state.sub_companies
             }}</span>
           </li>
-          <li class="sidebar-item">
+          <li class="sidebar-item" @click="$router.push({ name: 'employees' })">
             <span class="e-icons e-people"></span>
             <span class="e-text" title="employees">{{
               $store.state.employees
@@ -54,135 +57,34 @@
         </ul>
       </div>
     </ejs-sidebar>
-
-    <!-- <div
-      class="w3-sidebar w3-bar-block w3-card w3-animate-right w3-blue w3-border"
-      style="display: none"
-      id="mySidebar"
-    >
-      <button class="w3-bar-item w3-button w3-large" @click="w3_close">
-        اغلاق &times;
-      </button>
-      <router-link :to="{ name: 'profile' }" custom v-slot="{ navigate }">
-        <span
-          class="w3-bar-item w3-button"
-          @click="navigate"
-          @keypress.enter="navigate"
-          role="link"
-          >الملف الشخصى <i class="fa fa-user"></i
-        ></span>
-      </router-link>
-      <button class="w3-button w3-block w3-left-align" v-b-toggle.accordion-1>
-        الشركات الرئيسية <i class="fa fa-caret-down"></i>
-      </button>
-      <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <router-link :to="{ name: 'companies' }" custom v-slot="{ navigate }">
-            <span
-              class="w3-bar-item w3-button"
-              @click="navigate"
-              @keypress.enter="navigate"
-              role="link"
-              >الشركات <i class="fa fa-home"></i
-            ></span>
-          </router-link>
-        </b-card-body>
-      </b-collapse>
-
-      <button class="w3-button w3-block w3-left-align" v-b-toggle.accordion-2>
-        الشركات الفرعية <i class="fa fa-caret-down"></i>
-      </button>
-      <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <router-link
-            :to="{ name: 'sub-companies' }"
-            custom
-            v-slot="{ navigate }"
-          >
-            <span
-              class="w3-bar-item w3-button"
-              @click="navigate"
-              @keypress.enter="navigate"
-              role="link"
-              >الشركات <i class="fa fa-home"></i
-            ></span>
-          </router-link>
-        </b-card-body>
-      </b-collapse>
-
-      <button class="w3-button w3-block w3-left-align" v-b-toggle.accordion-3>
-        {{ $store.state.employees }} <i class="fa fa-caret-down"></i>
-      </button>
-      <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <router-link :to="{ name: 'employees' }" custom v-slot="{ navigate }">
-            <span
-              class="w3-bar-item w3-button"
-              @click="navigate"
-              @keypress.enter="navigate"
-              role="link"
-              >{{ $store.state.employees }} <i class="fa fa-user"></i
-            ></span>
-          </router-link>
-        </b-card-body>
-      </b-collapse>
-
-      <button class="w3-button w3-block w3-left-align" v-b-toggle.accordion-4>
-        خصومات الموظفين <i class="fa fa-caret-down"></i>
-      </button>
-      <b-collapse
-        id="accordion-4"
-        visible
-        accordion="my-accordion"
-        role="tabpanel"
-      >
-        <b-card-body>
-          <router-link to="/about" custom v-slot="{ navigate }">
-            <span
-              class="w3-bar-item w3-button"
-              @click="navigate"
-              @keypress.enter="navigate"
-              role="link"
-              >About Us</span
-            >
-          </router-link>
-        </b-card-body>
-      </b-collapse>
-
-      <a href="#" class="w3-bar-item w3-button">المنتجات</a>
-    </div> -->
-
-    <!-- <div id="main">
-      <div class="open-btn">
-        <button
-          id="openNav"
-          class="w3-button w3-teal w3-xlarge"
-          @click="w3_open"
-        >
-          &#9776;
-        </button>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-import { enableRipple } from '@syncfusion/ej2-base';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'the-sidebar',
+  mounted() {
+    if (this.getLoggedStatus) {
+      this.$refs.dockSidebar.toggle();
+    }
+  },
   data() {
     return {
       enableDock: true,
       dockSize: '72px',
-      width: '260px',
+      width: '265px',
       position: 'Right',
       type: 'Push',
       target: '.content',
     };
   },
+  computed: {
+    ...mapGetters('auth', ['getLoggedStatus']),
+  },
   methods: {
-    toggleClick: function () {
+    toggleClick() {
       this.$refs.dockSidebar.toggle();
     },
     w3_open() {
@@ -286,6 +188,11 @@ export default {
 #dockSidebar li {
   list-style-type: none;
   cursor: pointer;
+}
+
+#dockSidebar li:hover,
+#dockSidebar li:active {
+  background-color: #e3165b;
 }
 
 #dockSidebar ul {

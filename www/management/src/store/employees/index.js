@@ -3,15 +3,11 @@ const store = {
   namespaced: true,
   state() {
     return {
-      companiesDropdown: [],
       subCompaniesDropdown: [],
       superVisorsDropdown: [],
     };
   },
   mutations: {
-    setCompaniesDropDown(state, companies) {
-      state.companiesDropdown = companies;
-    },
     setSubCompaniesDropdown(state, subCompanies) {
       state.subCompaniesDropdown = subCompanies;
     },
@@ -20,10 +16,6 @@ const store = {
     },
   },
   actions: {
-    async getCompaniesDropdown({ commit }) {
-      const companies = await axios.get('companies/dropdown');
-      commit('setCompaniesDropDown', companies.data);
-    },
     async getSubCompaniesDropdown({ commit }) {
       const subCompanies = await axios.get('subCompanies/dropdown');
       commit('setSubCompaniesDropdown', subCompanies.data);
@@ -34,9 +26,6 @@ const store = {
     },
   },
   getters: {
-    companiesDropdownGetter(state) {
-      return state.companiesDropdown;
-    },
     subCompaniesDropdownGetter(state) {
       return state.subCompaniesDropdown;
     },

@@ -5,11 +5,11 @@
     <header>
       <the-header></the-header>
     </header>
-    <section>
-      <the-sidebar></the-sidebar>
-    </section>
     <section class="container">
       <router-view />
+    </section>
+    <section>
+      <the-sidebar></the-sidebar>
     </section>
   </div>
 </template>

@@ -4,6 +4,7 @@ Vue.use(Vuex);
 
 import auth from './auth/index.js';
 import companies from './company/index.js';
+// import employees from './employees/index.js';
 
 const store = new Vuex.Store({
   modules: {
@@ -14,7 +15,7 @@ const store = new Vuex.Store({
     return {
       baseUrl: 'http://localhost:8000/storage',
       main_company: 'الشركة الرئيسية',
-      name: 'الاسم',
+      name: 'الاسم الانجليزي',
       main_company_details: 'تفاصيل الشركة الرئيسية',
       sub_company_details: 'تفاصيل الشركة الفرعية',
       arabicName: 'الاسم العربي',
@@ -30,8 +31,8 @@ const store = new Vuex.Store({
       address: 'العنوان ',
       description: 'الوصف',
       file_number: 'رقم الملف',
-      enterName: 'ادخل الاسم',
-      enterArabicName: 'ادخل الاسم بالعربي',
+      enterName: 'ادخل الاسم باللغة الانجليزية',
+      enterArabicName: 'ادخل الاسم باللغة العربية',
       enterLicenseNumber: 'ادخل رقم الترخيص',
       enterCentralNumber: 'ادخل رقم المركز',
       enterCivilAuthorityNumber: 'ادخل رقم المحكمة',
@@ -44,6 +45,7 @@ const store = new Vuex.Store({
       enterDescription: 'ادخل الوصف',
       enterFileNumber: 'ادخل رقم الملف',
       enterMainCompany: 'ادخل الشركة الرئيسية',
+      enterSubCompany: 'ادخل الشركة الفرعية',
       add: 'إضافة',
       clear: 'مسح',
       edit: 'تعديل',
@@ -75,14 +77,24 @@ const store = new Vuex.Store({
       employees: 'الموظفين',
       employees_of_company: 'الموظفين التابعين للشركة',
       email: 'البريد الإلكتروني',
-      nationality_ar: 'الجنسية',
+      nationality: ' الجنسية باللغة الانجليزية',
+      nationality_ar: 'الجنسية باللغة العربية',
+      enterNationality: 'ادخل الجنسية باللغة الاجنبية',
+      enterNationalityAr: 'ادخل الجنسية باللغة العربيه',
       passport_number: 'رقم الباسبور',
+      enterPassportNumber: 'ادخل رقم الباسبور',
       city: 'المدينة',
+      enterCity: 'ادخل المدينة',
       country: 'البلد',
+      enterCountry: 'ادخل البلد',
       postal_code: 'الرمز البريدي',
+      enterPostalCode: 'ادخل الرمز البريدي',
       civil_id: 'البطاقة المدنية',
       passport_expiry_date: 'تاريخ انتهاء صلاحية جواز السفر',
+      enterPassportExpiryDate: 'ادخل تاريخ انتهاء صلاحية جواز السفر',
       residence_expiry_date: 'تاريخ انتهاء صلاحية الإقامة',
+      enterResidenceExpiryDate: 'ادخل تاريخ انتهاء صلاحية الإقامة',
+      enterEmployeeAddress: 'ادخل عنوان الموظف تفصيليا',
       userDetails: 'تفاصيل الموظف',
       no_company: 'لا يوجد شركات',
       no_sub_company: 'لا يوجد شركات فرعية',
@@ -90,6 +102,20 @@ const store = new Vuex.Store({
       liabilities: 'الخصوصيات',
       profile: 'الملف الشخصي',
       setting: 'الإعدادات',
+      enterEmail: 'ادخل البريد الإلكتروني',
+      supervisor: 'المشرف',
+      enterSupervisor: 'ادخل المشرف',
+      avatar: 'الصورة الرمزية',
+      enterCivilId: 'ادخل رقم البطاقة المدنية',
+      phoneNumbers: 'أرقام الهاتف',
+      phoneNumber: 'رقم الهاتف',
+      enterFirstPhoneNumber: 'ادخل رقم الهاتف الأول',
+      enterSecondPhoneNumber: 'ادخل رقم الهاتف الثاني',
+      enterThirdPhoneNumber: 'ادخل رقم الهاتف الثالث',
+      no_phone_number: 'لا يوجد أرقام الهاتف',
+      no_attachment: 'لا يوجد مرفقات',
+      logout: 'تسجيل الخروج',
+      login: 'تسجيل الدخول',
     };
   },
 });

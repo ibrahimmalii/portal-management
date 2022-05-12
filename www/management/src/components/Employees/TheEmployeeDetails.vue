@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5" v-if="userData">
+  <div class="my-5" v-if="userData">
     <the-title :title="$store.state.userDetails"></the-title>
     <b-card :title="userData?.name" :sub-title="userData.name_ar">
       <b-row class="my-1 text-center mb-3">
@@ -144,6 +144,42 @@
           ></b-form-input>
         </b-col>
       </b-row>
+      <b-row class="my-1 text-end mb-3">
+        <label for="input-small">{{ $store.state.phoneNumbers }}</label>
+        <b-col v-if="userData.phones.length">
+          <b-form-input
+            v-for="(phone, index) in userData.phones"
+            :key="index"
+            class="text-end"
+            size="md"
+            :value="phone.phone"
+            disabled
+          ></b-form-input>
+        </b-col>
+        <b-col v-else>
+          <b-form-input
+            class="text-end"
+            size="md"
+            :value="$store.state.no_phone_number"
+            disabled
+          ></b-form-input>
+        </b-col>
+      </b-row>
+      <b-card-text v-if="userData.attachments.length">
+        {{ $store.state.attachments }}:
+        <b-link
+          v-for="attachmant of userData.attachments"
+          :key="attachmant.id"
+          :href="`${$store.state.baseUrl}${attachmant.attachment_path}`"
+          target="_blank"
+        >
+          <i class="fa fa-link" style="font-size: 12px"></i>
+        </b-link>
+      </b-card-text>
+      <b-card-text v-else>
+        {{ $store.state.attachments }}:
+        <span>{{ $store.state.no_attachment }}</span>
+      </b-card-text>
     </b-card>
   </div>
 </template>

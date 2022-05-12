@@ -157,8 +157,8 @@
           ></b-form-textarea>
         </b-col>
       </b-row>
-      <b-card-text
-        >{{ $store.state.attachments }}:
+      <b-card-text v-if="attachments.length">
+        {{ $store.state.attachments }}:
         <b-link
           v-for="attachmant of attachments"
           :key="attachmant.id"
@@ -168,21 +168,10 @@
           <i class="fa fa-link" style="font-size: 12px"></i>
         </b-link>
       </b-card-text>
-      <!-- <b-row class="my-1 text-end mb-3">
-        <b-col>
-          <label for="input-small">{{ $store.state.employees }}</label>
-          <v-select
-            id="employees"
-            :options="users"
-            :placeholder="$store.state.employees_of_company"
-            size="md"
-            dir="rtl"
-            label="name"
-            v-model="userSelectValue"
-            :disabled="!isUserDataLoaded"
-          ></v-select>
-        </b-col>
-      </b-row> -->
+      <b-card-text v-else>
+        {{ $store.state.attachments }}:
+        <span>{{ $store.state.no_attachment }}</span>
+      </b-card-text>
     </b-card>
     <b-card class="text-center" v-else>
       <b-spinner variant="primary" label="Spinning"></b-spinner>

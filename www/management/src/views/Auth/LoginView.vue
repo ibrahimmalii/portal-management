@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'login-view',
   data() {
@@ -70,6 +70,11 @@ export default {
         password: '',
       },
     };
+  },
+  beforeMount() {
+    if (this.getLoggedStatus) {
+      this.$router.push({ name: 'companies' });
+    }
   },
   mounted() {},
   methods: {
@@ -91,7 +96,6 @@ export default {
             localStorage.clear();
           } else {
             this.login();
-            this.$router.push({ name: 'mainCompany' });
           }
         })
         .catch((error) => {
@@ -103,6 +107,9 @@ export default {
           this.isLogged = false;
         });
     },
+  },
+  computed: {
+    ...mapGetters('auth', ['getLoggedStatus']),
   },
 };
 </script>

@@ -344,7 +344,7 @@
                   <b-link
                     v-for="attachmant of form.original_attachment"
                     :key="attachmant.id"
-                    :href="`localhost:8000${attachmant.attachment_path}`"
+                    :href="`${$store.state.baseUrl}${attachmant.attachment_path}`"
                     target="_blank"
                   >
                     <i class="fa fa-link" style="font-size: 12px"></i>
@@ -498,8 +498,8 @@ export default {
         .then((_) => {
           this.$emit('updatedSuccessfully');
         })
-        .catch((_) => {
-          this.$emit('updatedError');
+        .catch((errors) => {
+          this.$emit('updatedError', errors);
         })
         .finally(() => {
           this.isSubmitted = false;

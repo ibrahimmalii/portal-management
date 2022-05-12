@@ -1,11 +1,11 @@
 <template>
   <div class="bg-primary" style="height: 60px">
     <b-navbar
-      class="navbar-expand-lg container"
+      class="navbar-expand-lg"
       toggleable="lg"
       type="dark"
       variant="primary"
-      container
+      :sticky="true"
     >
       <b-navbar-brand to="/" class="text-black">Liabilities</b-navbar-brand>
 
@@ -13,10 +13,12 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{ name: 'companies' }">الشركات الرئيسية</b-nav-item>
-          <b-nav-item :to="{ name: 'sub-companies' }"
-            >الشركات الفرعية</b-nav-item
-          >
+          <b-nav-item :to="{ name: 'companies' }">{{
+            $store.state.main_companies
+          }}</b-nav-item>
+          <b-nav-item :to="{ name: 'sub-companies' }">{{
+            $store.state.sub_companies
+          }}</b-nav-item>
           <b-nav-item :to="{ name: 'employees' }">{{
             $store.state.employees
           }}</b-nav-item>
@@ -26,27 +28,27 @@
           <b-nav-item-dropdown right>
             <template #button-content v-if="getLoggedStatus">
               <i class="fa fa-user"></i>
-              <em> {{ username }}</em>
+              <em> {{ userNameGetter }}</em>
             </template>
             <template #button-content v-else>
-              <em> تسجيل الدخول</em>
+              <em> {{ $store.state.login }}</em>
             </template>
             <div class="text-end" v-if="getLoggedStatus">
               <small
-                ><b-dropdown-item :to="{ name: 'profile' }"
-                  >الملف الشخصى</b-dropdown-item
-                ></small
+                ><b-dropdown-item :to="{ name: 'profile' }">{{
+                  $store.state.profile
+                }}</b-dropdown-item></small
               >
               <small
-                ><b-dropdown-item tag="small" @click="logout"
-                  >تسجيل الخروج</b-dropdown-item
-                ></small
+                ><b-dropdown-item tag="small" @click="logout">{{
+                  $store.state.logout
+                }}</b-dropdown-item></small
               >
             </div>
             <div class="text-end" v-else>
-              <b-dropdown-item tag="small" :to="{ name: 'login' }"
-                >تسجيل الدخول</b-dropdown-item
-              >
+              <b-dropdown-item tag="small" :to="{ name: 'login' }">{{
+                $store.state.login
+              }}</b-dropdown-item>
             </div>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -60,17 +62,11 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'the-header',
-  data() {
-    return {
-      username: '',
-    };
-  },
   mounted() {
-    console.log('st', this.getLoggedStatus);
-    this.username = JSON.parse(localStorage.user).name;
+    this.username = this.userNameGetter;
   },
   computed: {
-    ...mapGetters('auth', ['getLoggedStatus']),
+    ...mapGetters('auth', ['getLoggedStatus', 'userNameGetter']),
   },
   methods: {
     ...mapActions('auth', ['logout']),
