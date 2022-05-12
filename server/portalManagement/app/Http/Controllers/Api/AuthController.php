@@ -27,6 +27,10 @@ class AuthController extends Controller
 
         $user = User::with('company')->find(auth()->user()->id);
 
+        if($user->role_id != 2){
+            return response()->json(['error' => "You don't have a permission to login here!!"], 401);
+        }
+
         return response()->json(['token' => $token, 'user' => $user], 200);
     }
 

@@ -166,10 +166,6 @@
                                 </div>
                             @endforeach
 
-                            {{-- <div class="form-group">
-                                <label class="control-label" for="attachments">Attachments</label>
-                                <input type="file" name="attachments[]" multiple>
-                            </div> --}}
 
                         </div><!-- panel-body -->
 

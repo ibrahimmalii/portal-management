@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,11 +19,7 @@ class User extends \TCG\Voyager\Models\User
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -30,13 +27,23 @@ class User extends \TCG\Voyager\Models\User
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        // 'password',
         'remember_token',
         'email_verified_at',
         'created_at',
         'updated_at',
         'settings',
     ];
+
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 
     /**
      * The attributes that should be cast.
@@ -65,5 +72,32 @@ class User extends \TCG\Voyager\Models\User
     public function sub_company():BelongsTo
     {
         return $this->belongsTo(SubCompany::class);
+    }
+
+    /**
+     * Has many relation with attachments
+     *
+     * @return HasMany
+     */
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(UserAttachment::class);
+    }
+
+
+    /**
+     * has many relation with phone
+     *
+     * @return HasMany
+     */
+    public function phones(): HasMany
+    {
+        return $this->hasMany(Phone::class);
+    }
+
+
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'supervisor');
     }
 }

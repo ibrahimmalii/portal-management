@@ -24,7 +24,7 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:companies,name,' . $this->company->id,
             'name_ar' => 'required|string',
             'license_number' => 'required|string',
             'license_address' => 'required|string',

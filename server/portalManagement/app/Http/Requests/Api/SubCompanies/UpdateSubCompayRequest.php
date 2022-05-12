@@ -25,8 +25,8 @@ class UpdateSubCompayRequest extends FormRequest
     {
         return [
             'company_id' => 'required|exists:companies,id',
-            'name' => 'required|string',
-            'name_ar' => 'required|string',
+            'name' => 'required|string|unique:sub_companies,name,' .$this->sub_company->id,
+            'name_ar' => 'required|string|unique:sub_companies,name,' .$this->sub_company->id,
             'license_number' => 'required|string',
             'license_address' => 'required|string',
             'date_of_issuance_of_license' => 'required|date',

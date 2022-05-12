@@ -25,6 +25,16 @@ class SubCompaniesController extends Controller
     }
 
     /**
+     * Get Dropdown of Sub Companiees
+     *
+     * @return void
+     */
+    public function getDropDown(){
+        $companies = SubCompany::select('id', 'name')->get();
+        return response()->json($companies);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

@@ -7,6 +7,8 @@ use App\Http\Requests\Api\CompanyRequest;
 use App\Http\Requests\Api\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\CompanyAttachment;
+use App\Models\SubCompany;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -20,10 +22,31 @@ class CompanyController extends Controller
         return response()->json($companies);
     }
 
-    public function getDropDown(){
-        $companies = Company::select('id', 'name')->get();
+    /**
+     * Get Dropdown of all companies
+     * return JsonResponse
+     *
+     */
+    public function getDropDown(): JsonResponse
+    {
+        $companies = Company::select('id', 'name', 'name_ar')->get();
         return response()->json($companies);
     }
+
+    /**
+     * Get related sub companies
+     *
+     *
+     * @param Company $company
+     * @return JsonResponse
+     *
+     */
+    public function getRelatedSubCompanies(Company $company): JsonResponse
+    {
+        $subCompanies = $company->sub_companies()->select('id', 'name', 'name_ar')->get();
+        return response()->json($subCompanies);
+    }
+
 
     public function store(CompanyRequest $request)
     {

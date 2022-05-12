@@ -3,11 +3,41 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Users\UpdateUserRequest;
+use App\Http\Requests\Api\Users\UserRequest;
+use App\Models\Phone;
 use App\Models\User;
+use App\Models\UserAttachment;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    /**
+     * Store Attachments for User
+     */
+    public function storeAttachments($attachment, int $id){
+        $fileName = time() . '_' . $attachment->getClientOriginalName();
+            $filePath = $attachment->storeAs('employees', $fileName, 'public');
+            UserAttachment::create([
+                'user_id' => $id,
+                'attachment_type' => $attachment->getClientMimeType(),
+                'attachment_name' => time() . '_' . $attachment->getClientOriginalName(),
+                'attachment_path' => '/' . $filePath
+            ]);
+    }
+
+    /**
+     * Store User Phones
+     */
+    public function storePhone(int $id, string $phone){
+        Phone::create([
+            'user_id' => $id,
+            'phone' => $phone,
+        ]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +46,15 @@ class UserController extends Controller
     public function index()
     {
         return response()->json(User::where('role_id', 2)->orWhere('role_id', 3)->get());
+    }
+
+    /**
+     * Get Drop Down Of Users
+     *
+     * @return void
+     */
+    public function getSupervisorsDropDown(){
+        return response()->json(User::select('id', 'name')->where('role_id', 2)->get());
     }
 
     /**
@@ -34,9 +73,25 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $user = User::create($validated);
+
+        foreach ($validated['attachments'] as $key => $attachment){
+            $this->storeAttachments($attachment, $user->id);
+        }
+
+        $this->storePhone($user->id, $validated['phone1']);
+
+        if(!empty($validated['phone2'])){
+            $this->storePhone($user->id, $validated['phone2']);
+        }
+
+        if(!empty($validated['phone3'])){
+            $this->storePhone($user->id, $validated['phone3']);
+        }
+        return response()->json($user);
     }
 
     /**
@@ -48,10 +103,12 @@ class UserController extends Controller
     public function show(User $user)
     {
         return User::with(['company' => function ($query) {
-            $query->select('id', 'name');
+            $query->select('id', 'name', 'name_ar');
         }, 'sub_company' => function ($query) {
-            $query->select('id',  'name');
-        }])->where('id', $user->id)->first();
+            $query->select('id',  'name', 'name_ar');
+        }, 'attachments' => function ($query){
+            $query->select('id', 'user_id', 'attachment_name', 'attachment_path');
+        }, 'phones', 'supervisor'])->where('id', $user->id)->first();
     }
 
     /**
@@ -72,9 +129,26 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request,User $user)
     {
-        //
+        $validated = $request->validated();
+        $user->update($validated);
+        if(!empty($validated['attachments'])){
+            foreach ($validated['attachments'] as $key => $attachment){
+                $this->storeAttachments($attachment, $user->id);
+            }
+        }
+
+        $this->storePhone($user->id, $validated['phone1']);
+
+        if(!empty($validated['phone2'])){
+            $this->storePhone($user->id, $validated['phone2']);
+        }
+
+        if(!empty($validated['phone3'])){
+            $this->storePhone($user->id, $validated['phone3']);
+        }
+        return response()->json(['message' => 'User Updated Successfully'], 200);
     }
 
     /**
