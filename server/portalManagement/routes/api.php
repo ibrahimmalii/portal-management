@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\LiabilityController;
 use App\Http\Controllers\Api\SubCompaniesController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -38,5 +39,7 @@ Route::resource('subCompanies', SubCompaniesController::class);
 
 Route::get('users/supervisors/dropdown', [UserController::class, 'getSupervisorsDropDown']);
 Route::resource('users', UserController::class);
+
+Route::resource('liabilities', LiabilityController::class);
 
 Route::get('/getAvaliableUsers/{company}', [CompanyController::class, 'getAvaliableUsersInCompany'])->name('getAvaliableUsers');
