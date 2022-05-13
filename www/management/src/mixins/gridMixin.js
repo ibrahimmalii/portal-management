@@ -11,6 +11,7 @@ import {
   ColumnMenu,
   RowDD,
   Selection,
+  DetailRow,
 } from '@syncfusion/ej2-vue-grids';
 import { L10n } from '@syncfusion/ej2-base';
 
@@ -26,12 +27,18 @@ export default {
       srcDropOptions: { targetID: 'DestGrid' },
       destDropOptions: { targetID: 'Grid' },
       pageOptions: { pageSize: 7 },
+      dateFormatOptions: { type: 'date', format: 'yyyy/MMM/d' },
     };
   },
   methods: {
     toolbarClick(args) {
       if (args.item.id === 'Grid_pdfexport') {
         this.$refs.grid.pdfExport();
+      }
+
+      if (args.item.id === 'LiabilityGrid_pdfexport') {
+        console.log('pdf export');
+        this.$refs.liabilityGrid.pdfExport();
       }
 
       if (args.item.id === 'Grid_excelexport') {
@@ -47,6 +54,9 @@ export default {
       }
       if (args.item.id === 'DestGrid_excelexport') {
         this.$refs.destGrid.excelExport();
+      }
+      if (args.item.id === 'LiabilityGrid_excelexport') {
+        this.$refs.liabilityGrid.excelExport();
       }
     },
   },
@@ -64,6 +74,7 @@ export default {
       RowDD,
       Selection,
       ExcelExport,
+      DetailRow,
     ],
   },
 };

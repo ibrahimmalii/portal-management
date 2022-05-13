@@ -22,6 +22,9 @@
           <b-nav-item :to="{ name: 'employees' }">{{
             $store.state.employees
           }}</b-nav-item>
+          <b-nav-item :to="{ name: 'liabilities' }">{{
+            $store.state.liabilities
+          }}</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="me-auto">
