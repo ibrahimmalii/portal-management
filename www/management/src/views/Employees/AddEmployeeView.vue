@@ -599,7 +599,7 @@ export default {
         }
         if (i == 'company_id' || i == 'sub_company_id' || i == 'supervisor') {
           if (!this.form[i]) {
-            formData.append(i, null);
+            formData.append(i, '');
             continue;
           }
           formData.append(i, this.form[i]?.id);
