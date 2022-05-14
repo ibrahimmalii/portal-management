@@ -84,7 +84,7 @@ class UserController extends Controller
         $validated = $request->validated();
 
         foreach($validated as $key=> $prop){
-            if($validated[$key] == null || $validated[$key] == ''){
+            if(is_null($validated[$key]) || empty($validated[$key]) || $validated[$key] == ''){
                 unset($validated[$key]);
             }
         }
