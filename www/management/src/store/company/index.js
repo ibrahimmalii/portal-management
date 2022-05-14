@@ -6,6 +6,8 @@ const store = {
       companiesDropdown: [],
       subCompaniesDropdown: [],
       superVisorsDropdown: [],
+      usersDropdown: [],
+      products: [],
     };
   },
   mutations: {
@@ -17,6 +19,12 @@ const store = {
     },
     setSuperVisorsDropdown(state, superVisors) {
       state.superVisorsDropdown = superVisors;
+    },
+    setUsersDropdown(state, users) {
+      state.usersDropdown = users;
+    },
+    setProrducts(state, products) {
+      state.products = products;
     },
   },
   actions: {
@@ -32,6 +40,14 @@ const store = {
       const superVisors = await axios.get('users/supervisors/dropdown');
       commit('setSuperVisorsDropdown', superVisors.data);
     },
+    async getUsersDropdown({ commit }) {
+      const users = await axios.get('users/dropdown');
+      commit('setUsersDropdown', users.data);
+    },
+    async getProducts({ commit }) {
+      const products = await axios.get('products');
+      commit('setProrducts', products.data);
+    },
   },
   getters: {
     companiesDropdownGetter(state) {
@@ -42,6 +58,12 @@ const store = {
     },
     superVisorsDropdownGetter(state) {
       return state.superVisorsDropdown;
+    },
+    usersDropdownGetter(state) {
+      return state.usersDropdown;
+    },
+    productsGetter(state) {
+      return state.products;
     },
   },
 };

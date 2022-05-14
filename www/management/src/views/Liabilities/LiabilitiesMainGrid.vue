@@ -1,9 +1,55 @@
 <template>
   <div id="app">
     <the-title :title="$store.state.liabilities"></the-title>
-    <b-button class="mb-2" v-b-modal.add-employee-modal variant="primary">
+    <b-button class="mb-2" v-b-modal.add-liability-modal variant="primary">
       {{ $store.state.add }} <i class="fa fa-plus mr-2"></i>
     </b-button>
+    <b-modal
+      id="add-liability-modal"
+      scrollable
+      :title="addLiability"
+      centered
+      hide-footer
+      size="xl"
+    >
+      <add-liability-view
+        @addedSuccessfully="addedSuccessfully"
+        @addedError="addedError"
+        v-if="!isLoading"
+      >
+      </add-liability-view>
+      <div v-else class="d-flex justify-content-center my-3">
+        <b-spinner
+          variant="primary"
+          type="grow"
+          style="width: 3rem; height: 3rem"
+        ></b-spinner>
+      </div>
+    </b-modal>
+
+    <!-- <b-modal
+      id="edit-company-modal"
+      scrollable
+      :title="editCompany"
+      centered
+      hide-footer
+      size="xl"
+    >
+      <edit-company-view
+        v-if="isCompanyDataLoaded"
+        @updatedSuccessfully="updatedSuccessfully"
+        @updatedError="updatedError"
+        :company="companyData"
+      >
+      </edit-company-view>
+      <div v-else class="d-flex justify-content-center my-3">
+        <b-spinner
+          variant="primary"
+          type="grow"
+          style="width: 3rem; height: 3rem"
+        ></b-spinner>
+      </div>
+    </b-modal> -->
 
     <ejs-grid
       v-if="!isLoading"
@@ -76,18 +122,55 @@
     <div v-else class="text-center mt-5 mb-3 d-flex justify-content-center">
       <b-spinner variant="primary"></b-spinner>
     </div>
+    <ejs-toast
+      ref="successToast"
+      cssClass="e-toast-success"
+      :position="toastPosition"
+      :content="$store.state.successAdd"
+      :showProgressBar="true"
+      timeOut="1500"
+      :showCloseButton="true"
+      progressDirection="rtl"
+      :enableRtl="true"
+      :beforeOpen="beforeSuccessToastOpen"
+    ></ejs-toast>
+
+    <ejs-toast
+      ref="errorToast"
+      cssClass="e-toast-danger"
+      :position="toastPosition"
+      :content="$store.state.errorAdd"
+      :showProgressBar="true"
+      timeOut="1500"
+      :showCloseButton="true"
+      progressDirection="rtl"
+      :enableRtl="true"
+      :beforeOpen="beforeErrorToastOpen"
+    ></ejs-toast>
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 import gridMixin from '@/mixins/gridMixin';
 import DetailsTemplate from './DetailsTemplate.vue';
 import PaidTemplate from './PaidTemplate.vue';
 import LinkTemplate from '@/components/Templates/LinkTemplate.vue';
+import LiabilityActionsVue from './LiabilityActions.vue';
+import AddLiabilityView from './AddLiabilityView.vue';
+import toastMixin from '@/mixins/toastMixin';
 
 export default {
-  mixins: [gridMixin],
+  mixins: [gridMixin, toastMixin],
+  components: {
+    LiabilityActionsVue,
+    AddLiabilityView,
+  },
   mounted() {
     this.loadLiabilities();
+    this.getCompaniesDropdown();
+    this.getSubCompaniesDropdown();
+    this.getUsersDropdown();
+    this.getProducts();
   },
 
   data() {
@@ -103,9 +186,16 @@ export default {
       linkTemplate: function (fields) {
         return { template: LinkTemplate, props: { nameFields: fields } };
       },
+      addLiability: 'اضافة عقد جديد',
     };
   },
   methods: {
+    ...mapActions('companies', [
+      'getCompaniesDropdown',
+      'getSubCompaniesDropdown',
+      'getUsersDropdown',
+      'getProducts',
+    ]),
     loadLiabilities() {
       this.$axios
         .get('liabilities')
@@ -116,6 +206,32 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    addedSuccessfully() {
+      this.$bvModal.hide('add-liability-modal');
+      this.loadEmployeesData();
+      this.$refs.successToast.show({
+        template: this.$store.state.successAdd,
+      });
+    },
+    addedError(errors) {
+      console.log(errors.response.data.message);
+      this.$refs.errorToast.show({
+        template: errors.response.data.message,
+      });
+    },
+    updatedSuccessfully() {
+      this.$bvModal.hide('edit-employee-modal');
+      this.loadEmployeesData();
+      this.$refs.successToast.show({
+        template: this.$store.state.successUpdate,
+      });
+    },
+    updatedError(errors) {
+      console.log(errors.response.data.message);
+      this.$refs.errorToast.show({
+        template: errors.response.data.message,
+      });
     },
   },
 };
