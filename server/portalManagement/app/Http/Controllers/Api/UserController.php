@@ -54,7 +54,7 @@ class UserController extends Controller
      * @return void
      */
     public function getSupervisorsDropDown(){
-        return response()->json(User::select('id', 'name', 'name_ar')->where('role_id', 2)->get());
+        return response()->json(User::select('id', 'name', 'name_ar')->where('role_id', 2)->orWhere('role_id', 3)->get());
     }
 
 
@@ -82,6 +82,13 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $validated = $request->validated();
+
+        foreach($validated as $key=> $prop){
+            if($validated[$key] == null || $validated[$key] == ''){
+                unset($validated[$key]);
+            }
+        }
+
         $user = User::create($validated);
 
         foreach ($validated['attachments'] as $key => $attachment){
@@ -108,21 +115,19 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // return User::with(['company' => function ($query) {
-        //     $query->select('id', 'name', 'name_ar');
-        // }, 'sub_company' => function ($query) {
-        //     $query->select('id',  'name', 'name_ar');
-        // }, 'attachments' => function ($query){
-        //     $query->select('id', 'user_id', 'attachment_name', 'attachment_path');
-        // }, 'phones', 'supervisor'])->where('id', $user->id)->first();
 
-        return User::with(['company' => function ($query) {
+        $users = User::with(['company' => function ($query) {
             $query->select('id', 'name', 'name_ar');
         }, 'sub_company' => function ($query) {
             $query->select('id',  'name', 'name_ar');
         }, 'attachments' => function ($query){
             $query->select('id', 'user_id', 'attachment_name', 'attachment_path');
         }, 'phones'])->where('id', $user->id)->first();
+        if($users->supervisor != null){
+            $users->supervisor = User::select('id', 'name', 'name_ar')->where('id', $users->supervisor)->first();
+        }
+
+        return response()->json($users);
     }
 
     /**
@@ -146,12 +151,21 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request,User $user)
     {
         $validated = $request->validated();
+        foreach($validated as $key=> $prop){
+            if(is_null($validated[$key]) || $validated[$key] == ''){
+                $user->update([$key => null]);
+                unset($validated[$key]);
+            }
+        }
+
         $user->update($validated);
         if(!empty($validated['attachments'])){
             foreach ($validated['attachments'] as $key => $attachment){
                 $this->storeAttachments($attachment, $user->id);
             }
         }
+
+        Phone::where('user_id', $user->id)->delete();
 
         $this->storePhone($user->id, $validated['phone1']);
 
