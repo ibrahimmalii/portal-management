@@ -228,17 +228,20 @@ export default {
         });
     },
     loadEmployeeDetails(data) {
+      console.log('update');
       this.isEmployeeDataLoaded = false;
       this.$bvModal.show('edit-employee-modal');
       this.$axios
         .get(`users/${data.id}`)
         .then((res) => {
+          console.log('from res');
           this.userData = res.data;
         })
         .catch(console.error)
         .finally(() => {
           this.isEmployeeDataLoaded = true;
         });
+      return;
     },
     viewEmployee() {},
     addedSuccessfully() {

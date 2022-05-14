@@ -15,7 +15,7 @@
           <b-card-text>
             {{ $store.state.main_company }}:
             <router-link
-              v-if="userData.main_company"
+              v-if="userData.company"
               :to="{
                 name: 'browse-company',
                 params: { id: userData.company.id },

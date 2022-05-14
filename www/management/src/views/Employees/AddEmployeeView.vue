@@ -3,12 +3,12 @@
     <ValidationObserver ref="observer" class="w-50" v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(onSubmit)">
         <b-row class="my-1 text-end mb-3">
-          <b-col>
+          <b-col class="d-none">
             <label for="input-small">{{ $store.state.email }}</label>
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.email"
-              rules="required|email"
+              rules="email"
               vid="email"
             >
               <b-form-input
@@ -52,7 +52,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.name"
-              rules="required"
+              rules=""
               vid="name"
             >
               <b-form-input
@@ -187,7 +187,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.sub_company"
-              rules="required"
+              rules=""
               vid="sub_company"
             >
               <v-select
@@ -353,7 +353,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.passport_number"
-              rules="required|integer"
+              rules="required"
               vid="passport_number"
             >
               <b-form-input
@@ -375,7 +375,7 @@
             <validation-provider
               v-slot="validationContext"
               :name="$store.state.civil_id"
-              rules="required|integer"
+              rules="required|integer|max:12"
               vid="civil_id"
             >
               <b-form-input
@@ -598,9 +598,23 @@ export default {
           continue;
         }
         if (i == 'company_id' || i == 'sub_company_id' || i == 'supervisor') {
-          formData.append(i, this.form[i].id);
+          if (!this.form[i]) {
+            formData.append(i, null);
+            continue;
+          }
+          formData.append(i, this.form[i]?.id);
           continue;
         }
+        if (i == 'name' && !this.form[i]) {
+          formData.append(i, this.form['name_ar']);
+          continue;
+        }
+        if (i == 'email' && !this.form[i]) {
+          const email = crypto.randomUUID().substring(0, 8) + '@gmail.com';
+          formData.append(i, email);
+          continue;
+        }
+
         formData.append(i, this.form[i]);
       }
       this.$axios

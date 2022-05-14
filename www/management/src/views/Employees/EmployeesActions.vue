@@ -54,6 +54,7 @@ export default {
   methods: {
     editEmployee() {
       eventBus.$emit('edit-employee', this.data);
+      return;
     },
     // deleteClicked() {
     //   this.confirmDelete(() => {
