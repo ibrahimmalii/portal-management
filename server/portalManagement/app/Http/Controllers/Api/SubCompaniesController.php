@@ -34,6 +34,14 @@ class SubCompaniesController extends Controller
         return response()->json($companies);
     }
 
+    public function getUsers(SubCompany $subCompany)
+    {
+        $users = SubCompany::with(['users' => function ($query) {
+            $query->select('id', 'sub_company_id', 'name', 'name_ar');
+        }])->where('id', $subCompany->id)->first();
+        return response()->json($users);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

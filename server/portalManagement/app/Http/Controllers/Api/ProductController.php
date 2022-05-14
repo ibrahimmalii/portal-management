@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Liabilities\LiabilityRequest;
-use App\Models\Liability;
-use App\Models\LiabilityDate;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class LiabilityController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,16 +15,7 @@ class LiabilityController extends Controller
      */
     public function index()
     {
-        $liabilities = Liability::with(['dates' => function ($query) {
-            $query->select('id','liability_id', 'date', 'required_amount', 'is_paid');
-        }, 'user' => function ($query){
-            $query->select('id', 'name', 'name_ar');
-        }, 'company' => function ($query) {
-            $query->select('id', 'name', 'name_ar');
-        }, 'subCompany' => function ($query) {
-            $query->select('id', 'name', 'name_ar');
-        }])->get();
-        return response()->json($liabilities);
+        return response()->json(Product::all());
     }
 
     /**
@@ -45,21 +34,9 @@ class LiabilityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LiabilityRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->all();
-        $storedLiability = Liability::create($validated);
-        // insert all milestones date
-        foreach($validated['liability_dates'] as $key => $liability){
-            LiabilityDate::create([
-                'liability_id' => $storedLiability->id,
-                'date' => $liability['date'],
-                'required_amount' => $liability['required_amount'],
-                'is_paid' => $liability['is_paid']
-            ]);
-        }
-
-        return response()->json(['msg' => 'liability created successfully']);
+        //
     }
 
     /**
@@ -68,9 +45,9 @@ class LiabilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        return response()->json($product);
     }
 
     /**

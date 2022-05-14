@@ -96,8 +96,8 @@ class User extends \TCG\Voyager\Models\User
     }
 
 
-    public function supervisor(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'supervisor');
-    }
+    // public function supervisor(): BelongsTo
+    // {
+    //     return $this->belongsTo(User::class, 'supervisor');
+    // }
 }

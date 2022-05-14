@@ -54,7 +54,13 @@ class UserController extends Controller
      * @return void
      */
     public function getSupervisorsDropDown(){
-        return response()->json(User::select('id', 'name')->where('role_id', 2)->get());
+        return response()->json(User::select('id', 'name', 'name_ar')->where('role_id', 2)->get());
+    }
+
+
+    public function getEmployeesDropdown()
+    {
+        return response()->json(User::select('id', 'name', 'name_ar')->where('role_id', 2)->orWhere('role_id', 3)->get());
     }
 
     /**
@@ -102,13 +108,21 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        // return User::with(['company' => function ($query) {
+        //     $query->select('id', 'name', 'name_ar');
+        // }, 'sub_company' => function ($query) {
+        //     $query->select('id',  'name', 'name_ar');
+        // }, 'attachments' => function ($query){
+        //     $query->select('id', 'user_id', 'attachment_name', 'attachment_path');
+        // }, 'phones', 'supervisor'])->where('id', $user->id)->first();
+
         return User::with(['company' => function ($query) {
             $query->select('id', 'name', 'name_ar');
         }, 'sub_company' => function ($query) {
             $query->select('id',  'name', 'name_ar');
         }, 'attachments' => function ($query){
             $query->select('id', 'user_id', 'attachment_name', 'attachment_path');
-        }, 'phones', 'supervisor'])->where('id', $user->id)->first();
+        }, 'phones'])->where('id', $user->id)->first();
     }
 
     /**
