@@ -63,6 +63,11 @@ const router = new VueRouter({
       name: 'liabilities',
       component: () => import('../views/Liabilities/LiabilitiesView.vue'),
     },
+    {
+      path: '/liabilities/:id',
+      name: 'browse-liabilities',
+      component: () => import('../views/Liabilities/BrowseLiability.vue'),
+    },
   ],
 });
 

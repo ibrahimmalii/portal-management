@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- This is liabilities view -->
     <liabilities-main-grid></liabilities-main-grid>
     <!-- <liability-copy-grid :data="[]"></liability-copy-grid> -->
   </div>

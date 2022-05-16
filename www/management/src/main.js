@@ -18,6 +18,7 @@ import TheTitle from './components/TheTitle.vue';
 
 // Axios
 axios.defaults.baseURL = 'http://localhost:8000/api/';
+// axios.defaults.baseURL = 'https://liabilities.eng-ibrahim.com/public/api/';
 axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded';
 Vue.prototype.$axios = axios;

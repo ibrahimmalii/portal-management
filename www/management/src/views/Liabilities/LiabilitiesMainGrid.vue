@@ -27,21 +27,21 @@
       </div>
     </b-modal>
 
-    <!-- <b-modal
-      id="edit-company-modal"
+    <b-modal
+      id="edit-liability-modal"
       scrollable
-      :title="editCompany"
+      :title="editLiability"
       centered
       hide-footer
       size="xl"
     >
-      <edit-company-view
-        v-if="isCompanyDataLoaded"
+      <edit-liability-view
+        v-if="isLiabilityDetailsLoaded"
         @updatedSuccessfully="updatedSuccessfully"
-        @updatedError="updatedError"
-        :company="companyData"
+        @updatedFailed="updatedError"
+        :liability="liabilityData"
       >
-      </edit-company-view>
+      </edit-liability-view>
       <div v-else class="d-flex justify-content-center my-3">
         <b-spinner
           variant="primary"
@@ -49,7 +49,7 @@
           style="width: 3rem; height: 3rem"
         ></b-spinner>
       </div>
-    </b-modal> -->
+    </b-modal>
 
     <ejs-grid
       v-if="!isLoading"
@@ -94,6 +94,8 @@
           field="sub_company.name_ar"
           :headerText="$store.state.sub_company"
         ></e-column>
+        <e-column field="product.name" :headerText="$store.state.product">
+        </e-column>
         <e-column
           field="created_at"
           :headerText="$store.state.created_at"
@@ -116,6 +118,11 @@
           :template="pTemplate"
           textAlign="Left"
           type="boolean"
+        ></e-column>
+        <e-column
+          :headerText="$store.state.actions"
+          :template="cTemplate"
+          textAlign="Left"
         ></e-column>
       </e-columns>
     </ejs-grid>
@@ -157,15 +164,21 @@ import PaidTemplate from './PaidTemplate.vue';
 import LinkTemplate from '@/components/Templates/LinkTemplate.vue';
 import LiabilityActionsVue from './LiabilityActions.vue';
 import AddLiabilityView from './AddLiabilityView.vue';
+import EditLiabilityView from './EditLiabilityView.vue';
 import toastMixin from '@/mixins/toastMixin';
+import eventBus from '@/eventBus';
 
 export default {
   mixins: [gridMixin, toastMixin],
   components: {
     LiabilityActionsVue,
     AddLiabilityView,
+    EditLiabilityView,
   },
   mounted() {
+    eventBus.$on('edit-liability', this.loadLiabilityDetails);
+    eventBus.$on('view-liability', this.viewLiability);
+
     this.loadLiabilities();
     this.getCompaniesDropdown();
     this.getSubCompaniesDropdown();
@@ -176,7 +189,9 @@ export default {
   data() {
     return {
       data: [],
+      liabilityData: [],
       isLoading: true,
+      isLiabilityDetailsLoaded: false,
       detailTemplate: function (data) {
         return { template: DetailsTemplate, data };
       },
@@ -187,6 +202,10 @@ export default {
         return { template: LinkTemplate, props: { nameFields: fields } };
       },
       addLiability: 'اضافة عقد جديد',
+      editLiability: 'تعديل عقد',
+      cTemplate: function () {
+        return { template: LiabilityActionsVue };
+      },
     };
   },
   methods: {
@@ -197,6 +216,7 @@ export default {
       'getProducts',
     ]),
     loadLiabilities() {
+      this.isLoading = true;
       this.$axios
         .get('liabilities')
         .then((response) => {
@@ -207,12 +227,26 @@ export default {
           this.isLoading = false;
         });
     },
+    loadLiabilityDetails(data) {
+      this.isLiabilityDetailsLoaded = false;
+      this.$bvModal.show('edit-liability-modal');
+      this.$axios
+        .get(`liabilities/${data.id}`)
+        .then((res) => {
+          this.liabilityData = res.data;
+        })
+        .catch(console.error)
+        .finally(() => {
+          this.isLiabilityDetailsLoaded = true;
+        });
+      return;
+    },
     addedSuccessfully() {
       this.$bvModal.hide('add-liability-modal');
-      this.loadEmployeesData();
       this.$refs.successToast.show({
         template: this.$store.state.successAdd,
       });
+      this.loadLiabilities();
     },
     addedError(errors) {
       console.log(errors.response.data.message);
@@ -221,8 +255,8 @@ export default {
       });
     },
     updatedSuccessfully() {
-      this.$bvModal.hide('edit-employee-modal');
-      this.loadEmployeesData();
+      this.$bvModal.hide('edit-liability-modal');
+      this.loadLiabilities();
       this.$refs.successToast.show({
         template: this.$store.state.successUpdate,
       });
@@ -233,6 +267,7 @@ export default {
         template: errors.response.data.message,
       });
     },
+    viewLiability() {},
   },
 };
 </script>

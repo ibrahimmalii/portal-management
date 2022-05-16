@@ -14,6 +14,7 @@ const store = new Vuex.Store({
   state() {
     return {
       baseUrl: 'http://localhost:8000/storage',
+      // baseUrl: 'https://liabilities.eng-ibrahim.com/storage',
       main_company: 'الشركة الرئيسية',
       name: 'الاسم الانجليزي',
       main_company_details: 'تفاصيل الشركة الرئيسية',
@@ -143,7 +144,11 @@ const store = new Vuex.Store({
       enterIsPaid: 'ادخل حالة الدفع',
       required_amount: 'المبلغ المطلوب',
       enterRequiredAmount: 'ادخل المبلغ المطلوب',
-      errorEquality: 'المبلغ الكلى يجب ان يساوى المبلغ المطلوب',
+      errorEquality: 'المبلغ الاجمالى يجب ان يساوى المبلغ المطلوب',
+      liabilityDetails: 'تفاصيل الخصومات',
+      product_details: 'تفاصيل المنتج',
+      milestone_details: 'تفاصيل الدفعات',
+      liability_status: 'حالة الخصم',
     };
   },
 });

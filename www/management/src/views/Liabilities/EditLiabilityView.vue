@@ -159,7 +159,7 @@
           scrollable
           class="text-end"
         >
-          <b-card-boody>
+          <b-card-boody name="milestone">
             <div class="milestone">
               <b-row class="my-1 text-end mb-2">
                 <transition-group name="list">
@@ -172,7 +172,6 @@
                   ></milestone-form-vue>
                 </transition-group>
               </b-row>
-
               <b-form-row class="my-1 text-end">
                 <b-button class="ml-1" variant="success" @click="addNewForm">
                   <i class="fa fa-plus"></i>
@@ -215,7 +214,7 @@
               variant="primary"
             >
               <span v-if="!isSubmitted">
-                {{ $store.state.add }}
+                {{ $store.state.edit }}
               </span>
               <span v-else>
                 <b-spinner small variant="light"></b-spinner>
@@ -234,11 +233,15 @@ import MilestoneFormVue from './MilestoneForm.vue';
 import liabilityMixin from '@/mixins/liabilityMixin';
 
 export default {
-  name: 'AddLiabilityView',
-  emits: ['addedSuccessfully', 'addeddError'],
+  name: 'EditLiabilityView',
+  emits: ['updatedSuccessfully', 'updatedFailed'],
   mixins: [liabilityMixin],
+  props: ['liability'],
   components: {
     MilestoneFormVue,
+  },
+  mounted() {
+    this.loadFormData();
   },
   data() {
     return {
@@ -321,21 +324,46 @@ export default {
       if (!this.form.remaining_amount) {
         formData.append('remaining_amount', 0);
       }
+      formData.append('_method', 'PUT');
       this.$axios
-        .post('/liabilities', formData, {
+        .post('/liabilities/' + this.form.id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         })
         .then((_) => {
-          this.$emit('addedSuccessfully');
+          this.$emit('updatedSuccessfully');
         })
         .catch((errors) => {
-          this.$emit('addedError', errors);
+          this.$emit('updatedFailed', errors);
         })
         .finally(() => {
           this.isSubmitted = false;
         });
+    },
+    loadFormData() {
+      for (let i in this.liability) {
+        this.form[i] = this.liability[i];
+      }
+      this.form.user_id = this.liability.user;
+      this.form.company_id = this.liability.company;
+      this.form.sub_company_id = this.liability.sub_company;
+      this.form.product_id = this.liability.product;
+      this.form.liability_dates = this.liability.dates;
+      this.form.liability_dates.map((item) => {
+        item.id = item.id || this.generateId();
+        if (!item.is_paid) {
+          item.is_paid = {
+            id: 0,
+            name: 'لا',
+          };
+        } else {
+          item.is_paid = {
+            id: 1,
+            name: 'نعم',
+          };
+        }
+      });
     },
   },
 };

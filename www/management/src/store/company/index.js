@@ -21,6 +21,7 @@ const store = {
       state.superVisorsDropdown = superVisors;
     },
     setUsersDropdown(state, users) {
+      console.log(users);
       state.usersDropdown = users;
     },
     setProrducts(state, products) {

@@ -24,6 +24,7 @@
         >
           <v-select
             :id="'is_paid' + id"
+            class="bg-white"
             v-model="is_paid"
             size="md"
             dir="rtl"

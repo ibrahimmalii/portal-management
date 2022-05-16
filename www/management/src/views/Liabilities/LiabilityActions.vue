@@ -7,7 +7,7 @@
         class="btn"
         variant="light"
         @click="viewLiability"
-        :to="{ name: 'browse-liability', params: { id: data.id } }"
+        :to="{ name: 'browse-liabilities', params: { id: data.id } }"
       >
         <i class="fa fa-info"> </i>
       </router-link>
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     editLiability() {
-      eventBus.$emit('edit-company', this.data);
+      eventBus.$emit('edit-liability', this.data);
     },
     deleteClicked() {
       this.confirmDelete(() => {
@@ -67,7 +67,7 @@ export default {
       }
     },
     viewLiability() {
-      eventBus.$emit('view-company', this.data);
+      eventBus.$emit('view-liability', this.data);
     },
   },
 };
