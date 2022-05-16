@@ -36,9 +36,7 @@ class SubCompaniesController extends Controller
 
     public function getUsers(SubCompany $subCompany)
     {
-        $users = SubCompany::with(['users' => function ($query) {
-            $query->select('id', 'sub_company_id', 'name', 'name_ar');
-        }])->where('id', $subCompany->id)->first();
+        $users = $subCompany->users()->get();
         return response()->json($users);
     }
 

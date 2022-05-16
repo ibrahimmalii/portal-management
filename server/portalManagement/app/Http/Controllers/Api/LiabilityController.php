@@ -10,6 +10,26 @@ use Illuminate\Http\Request;
 
 class LiabilityController extends Controller
 {
+
+    /**
+     * Store all liabilitie dates
+     *
+     * @param array $validatedData
+     * @param integer $liability_id
+     * @return void
+     */
+    public function storeLiabilityDates(array $validatedData, int $liability_id)
+    {
+        foreach($validatedData['liability_dates'] as $key => $liability){
+            LiabilityDate::create([
+                'liability_id' => $liability_id,
+                'date' => $liability['date'],
+                'required_amount' => $liability['required_amount'],
+                'is_paid' => $liability['is_paid']
+            ]);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +45,7 @@ class LiabilityController extends Controller
             $query->select('id', 'name', 'name_ar');
         }, 'subCompany' => function ($query) {
             $query->select('id', 'name', 'name_ar');
-        }])->get();
+        }, 'product'])->get();
         return response()->json($liabilities);
     }
 
@@ -48,16 +68,16 @@ class LiabilityController extends Controller
     public function store(LiabilityRequest $request)
     {
         $validated = $request->all();
-        $storedLiability = Liability::create($validated);
-        // insert all milestones date
-        foreach($validated['liability_dates'] as $key => $liability){
-            LiabilityDate::create([
-                'liability_id' => $storedLiability->id,
-                'date' => $liability['date'],
-                'required_amount' => $liability['required_amount'],
-                'is_paid' => $liability['is_paid']
-            ]);
+        foreach($validated as $key=> $value){
+            if(is_null($value) || $value == '' || empty($value) || $value == 'null'){
+                unset($validated[$key]);
+            }
+            if($key == 'remaining_amount' && (!$value || $value == 0)){
+                $validated[$key] = 0;
+            }
         }
+        $storedLiability = Liability::create($validated);
+        $this->storeLiabilityDates($validated, $storedLiability->id);
 
         return response()->json(['msg' => 'liability created successfully']);
     }
@@ -68,9 +88,18 @@ class LiabilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Liability $liability)
     {
-        //
+        $liability = $liability->with(['dates' => function ($query) {
+            $query->select('id','liability_id', 'date', 'required_amount', 'is_paid');
+        }, 'user' => function ($query){
+            $query->select('id', 'name', 'name_ar', 'avatar');
+        }, 'company' => function ($query) {
+            $query->select('id', 'name', 'name_ar');
+        }, 'subCompany' => function ($query) {
+            $query->select('id', 'name', 'name_ar');
+        }, 'product'])->find($liability->id);
+        return response()->json($liability);
     }
 
     /**
@@ -91,9 +120,27 @@ class LiabilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(LiabilityRequest $request, Liability $liability)
     {
-        //
+        $validated = $request->all();
+        foreach($validated as $key=> $value){
+            if(is_null($value) || $value == '' || empty($value) || $value == 'null'){
+                unset($validated[$key]);
+            }
+            if($key == 'remaining_amount' && (!$value || $value == 0)){
+                $validated[$key] = 0;
+            }
+            if($key == 'is_fully_paid' && (!$value || $value == 0)){
+                $validated[$key] = 0;
+            }
+        }
+        $liability->update($validated);
+        LiabilityDate::where('liability_id', $liability->id)->delete();
+
+        // insert all milestones date
+        $this->storeLiabilityDates($validated, $liability->id);
+
+        return response()->json(['msg' => 'liability updated successfully']);
     }
 
     /**

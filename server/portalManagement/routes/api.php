@@ -29,6 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/companies', [CompanyController::class, 'index']);
 Route::get('/companies/dropdown', [CompanyController::class, 'getDropDown']);
+Route::get('/companies/{company}/users', [CompanyController::class, 'getUsers']);
 Route::get('/companies/{company}/sub_companies', [CompanyController::class, 'getRelatedSubCompanies']);
 Route::post('/companies', [CompanyController::class, 'store']);
 Route::get('/companies/{company}', [CompanyController::class, 'show']);

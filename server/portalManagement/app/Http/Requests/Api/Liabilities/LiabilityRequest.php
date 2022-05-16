@@ -25,7 +25,7 @@ class LiabilityRequest extends FormRequest
     {
         return [
             'company_id' => 'required|exists:companies,id',
-            'sub_company_id' => 'required|exists:sub_companies,id',
+            'sub_company_id' => 'nullable',
             'product_id' => 'required|exists:products,id',
             'user_id' => 'required|exists:users,id',
             'civil_id' => 'required|string|exists:users,civil_id',

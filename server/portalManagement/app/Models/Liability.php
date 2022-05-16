@@ -59,4 +59,15 @@ class Liability extends Model
     {
         return $this->belongsTo(SubCompany::class);
     }
+
+
+    /**
+     * Relation with product
+     *
+     * @return BelongsTo
+     */
+    public function product (): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

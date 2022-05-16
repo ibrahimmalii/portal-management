@@ -134,7 +134,11 @@
                                             </div>
                                         @elseif($row->field == 'passport_number')
                                             <div class="form-group">
-                                                <input type="number" class="form-control" name="passport_number" placeholder="Passport Number" value="{{ $dataTypeContent->passport_number }}">
+                                                <input type="text" class="form-control" name="passport_number" placeholder="Passport Number" value="{{ $dataTypeContent->passport_number }}">
+                                            </div>
+                                        @elseif($row->field == 'civil_id')
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="civil_id" placeholder="Civil ID" value="{{ $dataTypeContent->civil_id }}">
                                             </div>
                                         @elseif($row->field == 'passport_expiry_date')
                                             <div class="form-group">

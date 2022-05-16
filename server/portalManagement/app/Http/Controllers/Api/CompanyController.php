@@ -33,6 +33,12 @@ class CompanyController extends Controller
         return response()->json($companies);
     }
 
+    public function getUsers(Company $company)
+    {
+        $users = $company->users()->get();
+        return response()->json($users);
+    }
+
     /**
      * Get related sub companies
      *
