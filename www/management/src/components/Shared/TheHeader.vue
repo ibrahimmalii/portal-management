@@ -30,7 +30,12 @@
         <b-navbar-nav class="me-auto">
           <b-nav-item-dropdown right>
             <template #button-content v-if="getLoggedStatus">
-              <i class="fa fa-user"></i>
+              <!-- <i class="fa fa-user"></i> -->
+              <b-avatar
+                :src="`${$store.state.baseUrl}/${$store.state.auth.avatar}`"
+                size="2rem"
+                class="mx-2"
+              ></b-avatar>
               <em> {{ userNameGetter }}</em>
             </template>
             <template #button-content v-else>
@@ -38,8 +43,8 @@
             </template>
             <div class="text-end" v-if="getLoggedStatus">
               <small
-                ><b-dropdown-item :to="{ name: 'profile' }">{{
-                  $store.state.profile
+                ><b-dropdown-item :to="{ name: 'setting' }">{{
+                  $store.state.setting
                 }}</b-dropdown-item></small
               >
               <small
@@ -65,9 +70,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'the-header',
-  mounted() {
-    this.username = this.userNameGetter;
-  },
+  mounted() {},
   computed: {
     ...mapGetters('auth', ['getLoggedStatus', 'userNameGetter']),
   },

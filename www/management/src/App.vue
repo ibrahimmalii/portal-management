@@ -20,6 +20,8 @@
 #app {
   /* font-family: 'Noto Sans Display', 'Almarai', sans-serif !important; */
   /* font-weight: normal; */
+  background-color: #f6f6f6;
+  height: 100vh;
 }
 header {
   line-height: 1.5;

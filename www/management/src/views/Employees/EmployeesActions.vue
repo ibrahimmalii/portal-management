@@ -56,17 +56,6 @@ export default {
       eventBus.$emit('edit-employee', this.data);
       return;
     },
-    // deleteClicked() {
-    //   this.confirmDelete(() => {
-    //     this.deleting = true;
-    //     eventBus.$emit('delete-company', this.data);
-    //   });
-    // },
-    // deleteComplete(id) {
-    //   if (id === this.data?.id) {
-    //     this.deleting = false;
-    //   }
-    // },
     viewEmployee() {
       eventBus.$emit('view-employee', this.data);
     },

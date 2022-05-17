@@ -4,15 +4,17 @@ const store = {
   state() {
     return {
       isLoggedIn: !!localStorage.token,
-      username: localStorage.user ? JSON.parse(localStorage.user).name : '',
+      username: localStorage.user ? JSON.parse(localStorage.user).name_ar : '',
+      avatar: localStorage.user ? JSON.parse(localStorage.user).avatar : '',
     };
   },
   mutations: {
     setLoggedStatus(state, { isAuth }) {
       state.isLoggedIn = isAuth;
     },
-    setUserNameValue(state, { username }) {
+    setUserNameValue(state, { username, avatar }) {
       state.username = username;
+      state.avatar = avatar;
     },
   },
   actions: {
@@ -28,7 +30,8 @@ const store = {
     setUserName({ commit }) {
       if (localStorage.user) {
         commit('setUserNameValue', {
-          username: JSON.parse(localStorage.user).name,
+          username: JSON.parse(localStorage.user).name_ar,
+          avatar: JSON.parse(localStorage.user).avatar,
         });
       }
     },

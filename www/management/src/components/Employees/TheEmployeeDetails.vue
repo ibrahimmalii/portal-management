@@ -186,7 +186,16 @@
 
 <script>
 export default {
-  props: ['userData'],
+  props: {
+    userData: {
+      type: Object,
+      required: true,
+    },
+    isSetting: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 

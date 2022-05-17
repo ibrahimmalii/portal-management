@@ -68,7 +68,18 @@ const router = new VueRouter({
       name: 'browse-liabilities',
       component: () => import('../views/Liabilities/BrowseLiability.vue'),
     },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import('../views/Setting/SettingView.vue'),
+    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'login' && !localStorage.token) next({ name: 'login' });
+  if (to.name === 'login' && localStorage.token) next({ name: 'companies' });
+  else next();
 });
 
 export default router;

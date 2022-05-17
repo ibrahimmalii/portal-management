@@ -15,12 +15,12 @@
             <span class="e-icons expand"></span>
             <span class="e-text" title="menu">{{ $store.state.menu }}</span>
           </li>
-          <li class="sidebar-item">
+          <!-- <li class="sidebar-item">
             <span class="e-icons profile"></span>
             <span class="e-text" title="profile">{{
               $store.state.profile
             }}</span>
-          </li>
+          </li> -->
           <li class="sidebar-item" @click="$router.push({ name: 'companies' })">
             <span class="e-icons home"> </span>
             <span class="e-text" title="home">
@@ -42,13 +42,16 @@
               $store.state.employees
             }}</span>
           </li>
-          <li class="sidebar-item">
+          <li
+            class="sidebar-item"
+            @click="$router.push({ name: 'liabilities' })"
+          >
             <span class="e-icons info"></span>
             <span class="e-text" title="liabilities">{{
               $store.state.liabilities
             }}</span>
           </li>
-          <li class="sidebar-item">
+          <li class="sidebar-item" @click="$router.push({ name: 'setting' })">
             <span class="e-icons settings"></span>
             <span class="e-text" title="settings">{{
               $store.state.setting
@@ -62,13 +65,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import eventBus from '@/eventBus';
 
 export default {
   name: 'the-sidebar',
   mounted() {
-    if (this.getLoggedStatus) {
-      this.$refs.dockSidebar.toggle();
-    }
+    this.$refs.dockSidebar.toggle();
   },
   data() {
     return {
@@ -103,9 +105,9 @@ export default {
 </script>
 
 <style scoped>
-@import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-vue-navigations/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-vue-navigations/styles/material.css';
 .title {
   text-align: center;
   font-size: 20px;
@@ -252,5 +254,9 @@ export default {
     format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+li > span {
+  margin-left: 0.625rem;
 }
 </style>

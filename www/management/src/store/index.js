@@ -149,6 +149,15 @@ const store = new Vuex.Store({
       product_details: 'تفاصيل المنتج',
       milestone_details: 'تفاصيل الدفعات',
       liability_status: 'حالة الخصم',
+      oldPassword: 'كلمة المرور القديمة',
+      enterOldPassword: 'ادخل كلمة المرور القديمة',
+      newPassword: 'كلمة المرور الجديدة',
+      enterNewPassword: 'ادخل كلمة المرور الجديدة',
+      confirmPassword: 'تأكيد كلمة المرور',
+      enterConfirmPassword: 'ادخل تأكيد كلمة المرور',
+      enterPassword: 'ادخل كلمة المرور',
+      passwordNotMatch: 'كلمة المرور الجديدة لا تطابق تاكيد كلمة المرور',
+      invalidCredintials: 'اسم المستخدم او كلمة المرور غير صحيحة',
     };
   },
 });

@@ -12,9 +12,9 @@ registerLicense(
 );
 
 // Import shared components
-import TheHeader from './components/TheHeader.vue';
-import TheSidebar from './components/TheSidebar.vue';
-import TheTitle from './components/TheTitle.vue';
+import TheHeader from './components/Shared/TheHeader.vue';
+import TheSidebar from './components/Shared/TheSidebar.vue';
+import TheTitle from './components/Shared/TheTitle.vue';
 
 // Axios
 axios.defaults.baseURL = 'http://localhost:8000/api/';
