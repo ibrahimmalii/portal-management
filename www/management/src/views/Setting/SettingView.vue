@@ -150,7 +150,7 @@
           <b-row class="my-1 text-end mb-3">
             <b-col>
               <div class="d-flex justify-content-center">
-                <b-button type="submit" variant="dark" size="md" class="w-50">
+                <b-button type="submit" size="md" class="w-50 submit">
                   <span v-if="!isSubmitted">
                     {{ $store.state.save }}
                   </span>
@@ -284,5 +284,10 @@ export default {
   border-radius: 20px;
   box-shadow: 4px 5px 16px 5px #313fff;
   border: 5px solid #eaeaea;
+}
+
+.submit {
+  background-color: #52c58f;
+  border-color: #70d670;
 }
 </style>
