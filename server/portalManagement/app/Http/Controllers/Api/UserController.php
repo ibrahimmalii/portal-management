@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\UserAttachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -191,6 +193,19 @@ class UserController extends Controller
         //
     }
 
+    public function createImageFromBase64($image){
+
+        $file_data = $image;
+        $fileName = 'image_'.time().'.jpg';
+        @list($type, $file_data) = explode(';', $file_data);
+        @list(, $file_data)      = explode(',', $file_data);
+
+        // storing image in storage/app/public Folder
+        if($file_data != ""){
+            $filePath = $image->storeAs('users', $fileName, 'public');
+        }
+
+    }
 
     //change password
     public function changePassword(Request $request){
@@ -200,10 +215,27 @@ class UserController extends Controller
             return response()->json(['error' => 'Invalid Credentials'], 401);
         }
 
+        Validator::make($request->all(), [
+            'name' => 'required|min:3|max:100',
+            'name_ar' => 'required|min:3|max:100',
+            'newPassword' => 'required|min:8',
+        ])->validate();
+
+
+        $file_data = $request['avatar'];
+        $fileName = 'image_'.time().'.jpg';
+        @list($type, $file_data) = explode(';', $file_data);
+        @list(, $file_data)      = explode(',', $file_data);
+
+        if($file_data != ""){
+            Storage::disk('public')->put($fileName,base64_decode($file_data));
+        }
+
         User::where('email', $request['email'])->update([
             'name' => $request['name'],
             'name_ar' => $request['name_ar'],
-            'password' => Hash::make($request['newPassword'])
+            'password' => Hash::make($request['newPassword']),
+            'avatar' => '/' . $fileName
         ]);
 
         $user = User::where('email', $request['email'])->first();
