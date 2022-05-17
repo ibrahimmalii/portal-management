@@ -82,7 +82,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['login', 'setUserName']),
+    ...mapActions('auth', ['login', 'setUserName', 'setAvatar']),
     onSubmit() {
       this.isLogged = true;
       this.isLoggedSuccess = false;
@@ -101,6 +101,7 @@ export default {
           } else {
             this.login();
             this.setUserName();
+            this.setAvatar();
             this.eventBus.$emit('close-sidebar');
           }
         })

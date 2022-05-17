@@ -287,4 +287,14 @@ export default {
 @import '../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
 @import '../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
 @import '@/assets/common.css';
+
+.e-detailcell {
+  text-align: center;
+  padding: 0 2.5rem !important;
+  background-color: #e9ebf6;
+}
+
+.e-table {
+  /* width: 95rem !important; */
+}
 </style>

@@ -16,6 +16,10 @@ const store = {
       state.username = username;
       state.avatar = avatar;
     },
+    setAvatarValue(state, { avatar }) {
+      state.avatar = avatar;
+      console.log('ava', avatar);
+    },
   },
   actions: {
     login(context) {
@@ -35,6 +39,13 @@ const store = {
         });
       }
     },
+    setAvatar({ commit }) {
+      if (localStorage.user) {
+        commit('setAvatarValue', {
+          avatar: JSON.parse(localStorage.user).avatar,
+        });
+      }
+    },
   },
   getters: {
     getLoggedStatus(state) {
@@ -42,6 +53,9 @@ const store = {
     },
     userNameGetter(state) {
       return state.username;
+    },
+    avatarGetter(state) {
+      return state.avatar;
     },
   },
 };

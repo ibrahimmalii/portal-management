@@ -3,6 +3,7 @@
     <section v-if="isLoaded" class="p-4">
       <ValidationObserver ref="observer" class="w-50" v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(onSubmit)">
+          <image-template-vue @imageLoaded="imageLoaded"></image-template-vue>
           <b-row class="my-1 text-end mb-3">
             <b-col>
               <label for="input-small">{{ $store.state.name }}</label>
@@ -200,10 +201,14 @@ import { mapActions } from 'vuex';
 import toastMixin from '@/mixins/toastMixin';
 import gridMixin from '@/mixins/gridMixin';
 
+import ImageTemplateVue from '@/components/Templates/ImageTemplate.vue';
+
 export default {
   name: 'setting',
   mixins: [toastMixin, gridMixin],
-  components: {},
+  components: {
+    ImageTemplateVue,
+  },
   mounted() {
     const { id } = JSON.parse(localStorage.user);
     this.loadUserData(id);
@@ -213,6 +218,7 @@ export default {
       isLoaded: false,
       isSubmitted: false,
       data: {
+        avatar: '',
         name: '',
         name_ar: '',
         password: '',
@@ -222,7 +228,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['setUserName']),
+    ...mapActions('auth', ['setUserName', 'setAvatar']),
     getValidationState({ dirty, validated, valid = null }) {
       return dirty || validated ? valid : null;
     },
@@ -230,6 +236,8 @@ export default {
       this.$axios
         .get(`users/${id}`)
         .then((response) => {
+          console.log(response);
+          localStorage.user = JSON.stringify(response.data);
           for (let i in response.data) {
             if (i == 'password') {
               continue;
@@ -242,6 +250,10 @@ export default {
           this.isLoaded = true;
         });
     },
+    imageLoaded(data) {
+      console.log(data);
+      this.data.avatar = data;
+    },
     onSubmit() {
       this.isSubmitted = true;
       if (this.data.newPassword != this.data.confirmPassword) {
@@ -251,14 +263,24 @@ export default {
         return;
       }
 
+      const formData = new FormData();
+      for (let i in this.data) {
+        formData.append(i, this.data[i]);
+      }
+
       this.$axios
-        .post('users/change-password', this.data)
+        .post('users/change-password', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         .then((res) => {
           this.$refs.successToast.show({
             template: this.$store.state.successUpdate,
           });
           localStorage.user = JSON.stringify(res.data.user);
           this.setUserName();
+          this.setAvatar();
           this.data.password =
             this.data.newPassword =
             this.data.confirmPassword =
@@ -282,12 +304,14 @@ export default {
 #setting {
   margin-top: 10vh;
   border-radius: 20px;
-  box-shadow: 4px 5px 16px 5px #313fff;
+  box-shadow: 4px 5px 16px 5px #0d6efd;
   border: 5px solid #eaeaea;
 }
 
 .submit {
-  background-color: #52c58f;
+  background-color: #10101e;
   border-color: #70d670;
+  border-radius: 17px;
+  box-shadow: 3px 6px 18px 3px #a91509;
 }
 </style>

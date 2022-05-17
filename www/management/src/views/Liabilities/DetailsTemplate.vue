@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover text-end m-auto">
+  <table class="table table-hover details">
     <colgroup>
       <col width="20%" />
       <col width="35%" />
@@ -38,4 +38,10 @@
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+.details {
+  background-color: #ededed;
+  margin: 1.25rem 0;
+  border: 1px solid black;
+}
+</style>

@@ -32,7 +32,7 @@
             <template #button-content v-if="getLoggedStatus">
               <!-- <i class="fa fa-user"></i> -->
               <b-avatar
-                :src="`${$store.state.baseUrl}/${$store.state.auth.avatar}`"
+                :src="`${$store.state.baseUrl}/${avatarGetter}`"
                 size="2rem"
                 class="mx-2"
               ></b-avatar>
@@ -72,7 +72,11 @@ export default {
   name: 'the-header',
   mounted() {},
   computed: {
-    ...mapGetters('auth', ['getLoggedStatus', 'userNameGetter']),
+    ...mapGetters('auth', [
+      'getLoggedStatus',
+      'userNameGetter',
+      'avatarGetter',
+    ]),
   },
   methods: {
     ...mapActions('auth', ['logout']),
