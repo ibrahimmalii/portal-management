@@ -7,7 +7,6 @@ use App\Http\Requests\Api\SubCompanies\SubCompanyRequest;
 use App\Http\Requests\Api\SubCompanies\UpdateSubCompayRequest;
 use App\Models\SubCompany;
 use App\Models\SubCompanyAttachment;
-use Illuminate\Http\Request;
 
 class SubCompaniesController extends Controller
 {
@@ -30,7 +29,7 @@ class SubCompaniesController extends Controller
      * @return void
      */
     public function getDropDown(){
-        $companies = SubCompany::select('id', 'name')->get();
+        $companies = SubCompany::select('id', 'name', 'name_ar')->get();
         return response()->json($companies);
     }
 

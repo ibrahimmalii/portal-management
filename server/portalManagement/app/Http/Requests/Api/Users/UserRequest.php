@@ -49,4 +49,12 @@ class UserRequest extends FormRequest
             'phone3' => 'nullable|string',
         ];
     }
+
+
+    public function prepareForValidation(){
+        $this->merge([
+            'password' => '$2y$10$oh6xJSMx6AF3TuP4qZ8eH.IfEGojRxIMoYkkcRit/z/0a7PBI7YhG'
+        ]);
+    }
+
 }

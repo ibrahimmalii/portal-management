@@ -42,6 +42,8 @@ Route::resource('subCompanies', SubCompaniesController::class);
 
 Route::get('users/supervisors/dropdown', [UserController::class, 'getSupervisorsDropDown']);
 Route::get('users/dropdown', [UserController::class, 'getEmployeesDropdown']);
+
+Route::post('users/change-password', [UserController::class, 'changePassword']);
 Route::resource('users', UserController::class);
 
 Route::resource('liabilities', LiabilityController::class);

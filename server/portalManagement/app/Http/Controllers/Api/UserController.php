@@ -9,6 +9,7 @@ use App\Models\Phone;
 use App\Models\User;
 use App\Models\UserAttachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -188,5 +189,25 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    //change password
+    public function changePassword(Request $request){
+        $credintials = $request->only(['email', 'password']);
+
+        if(!auth()->attempt($credintials)){
+            return response()->json(['error' => 'Invalid Credentials'], 401);
+        }
+
+        User::where('email', $request['email'])->update([
+            'name' => $request['name'],
+            'name_ar' => $request['name_ar'],
+            'password' => Hash::make($request['newPassword'])
+        ]);
+
+        $user = User::where('email', $request['email'])->first();
+
+        return response()->json(['msg' => 'updated successfully', 'user' => $user], 200);
     }
 }
