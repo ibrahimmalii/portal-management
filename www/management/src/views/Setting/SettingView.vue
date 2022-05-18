@@ -312,6 +312,6 @@ export default {
   background-color: #10101e;
   border-color: #70d670;
   border-radius: 17px;
-  box-shadow: 3px 6px 18px 3px #a91509;
+  box-shadow: 3px 6px 18px 3px #507ab9;
 }
 </style>

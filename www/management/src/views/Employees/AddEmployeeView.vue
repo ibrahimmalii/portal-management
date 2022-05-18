@@ -86,13 +86,17 @@
               rules="required"
               vid="nationality"
             >
-              <b-form-input
-                v-model="form.nationality"
-                class="text-end"
+              <v-select
                 id="nationality"
+                v-model="form.nationality"
                 size="md"
+                dir="rtl"
                 :placeholder="$store.state.enterNationality"
-              ></b-form-input>
+                :options="$store.state.nationalities"
+                label="name_en"
+                value="id"
+                @input="onNationalityChange"
+              ></v-select>
               <b-form-invalid-feedback
                 :state="getValidationState(validationContext)"
               >
@@ -108,12 +112,17 @@
               rules="required"
               vid="nationality_ar"
             >
-              <b-form-input
+              <v-select
                 id="nationality_ar"
                 v-model="form.nationality_ar"
-                class="text-end"
+                size="md"
+                dir="rtl"
                 :placeholder="$store.state.enterNationalityAr"
-              ></b-form-input>
+                :options="$store.state.nationalities"
+                label="name"
+                value="id"
+                @input="onNationalityChange"
+              ></v-select>
               <b-form-invalid-feedback
                 :state="getValidationState(validationContext)"
               >
@@ -543,13 +552,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import NationalityDropdownVue from '@/components/Templates/NationalityDropdown.vue';
 import NationalityDropdownEnglishVue from '../../components/Templates/NationalityDropdownEnglish.vue';
+import employeeMixin from '@/mixins/employeeMixin';
 
 export default {
   name: 'AddCompanyView',
   emits: ['addedSuccessfully', 'addeddError'],
+  mixins: [employeeMixin],
   components: {
     NationalityDropdownVue,
     NationalityDropdownEnglishVue,
@@ -585,22 +595,10 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapGetters('companies', [
-      'companiesDropdownGetter',
-      'subCompaniesDropdownGetter',
-      'superVisorsDropdownGetter',
-    ]),
-    checkAttachments() {
-      return !this.form.attachments;
-    },
-  },
   methods: {
-    getValidationState({ dirty, validated, valid = null }) {
-      return dirty || validated ? valid : null;
-    },
     onSubmit() {
       console.log('form', this.form);
+      // return;
       this.isSubmitted = true;
       const formData = new FormData();
       for (let i = 0; i < this.form.attachments.length; i++) {
@@ -629,6 +627,16 @@ export default {
           continue;
         }
 
+        if (i == 'nationality') {
+          formData.append(i, this.form[i].name_en);
+          continue;
+        }
+
+        if (i == 'nationality_ar') {
+          formData.append(i, this.form[i].name);
+          continue;
+        }
+
         formData.append(i, this.form[i]);
       }
       this.$axios
@@ -646,11 +654,6 @@ export default {
         .finally(() => {
           this.isSubmitted = false;
         });
-    },
-    clearForm() {
-      requestAnimationFrame(() => {
-        this.$refs.observer.reset();
-      });
     },
     getSubCompanies(company) {
       this.form.sub_company_id = null;

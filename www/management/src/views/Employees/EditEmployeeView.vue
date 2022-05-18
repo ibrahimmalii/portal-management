@@ -78,6 +78,58 @@
               rules="required"
               vid="nationality"
             >
+              <v-select
+                id="nationality"
+                v-model="form.nationality"
+                size="md"
+                dir="rtl"
+                :placeholder="$store.state.enterNationality"
+                :options="$store.state.nationalities"
+                label="name_en"
+                value="id"
+                @input="onNationalityChange"
+              ></v-select>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </validation-provider>
+          </b-col>
+          <b-col>
+            <label for="input-small">{{ $store.state.nationality_ar }}</label>
+            <validation-provider
+              v-slot="validationContext"
+              :name="$store.state.nationality_ar"
+              rules="required"
+              vid="nationality_ar"
+            >
+              <v-select
+                id="nationality_ar"
+                v-model="form.nationality_ar"
+                size="md"
+                dir="rtl"
+                :placeholder="$store.state.enterNationalityAr"
+                :options="$store.state.nationalities"
+                label="name"
+                value="id"
+                @input="onNationalityChange"
+              ></v-select>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </validation-provider>
+          </b-col>
+          <!-- <b-col>
+            <label for="input-small">{{ $store.state.nationality }}</label>
+            <validation-provider
+              v-slot="validationContext"
+              :name="$store.state.nationality"
+              rules="required"
+              vid="nationality"
+            >
               <b-form-input
                 v-model="form.nationality"
                 class="text-end"
@@ -112,7 +164,7 @@
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </validation-provider>
-          </b-col>
+          </b-col> -->
         </b-row>
         <b-row class="my-1 text-end mb-3">
           <b-col>
@@ -549,11 +601,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import employeeMixin from '@/mixins/employeeMixin';
 
 export default {
   name: 'AddCompanyView',
   emits: ['updatedSuccessfully', 'updatedError'],
+  mixins: [employeeMixin],
   props: ['userData'],
   mounted() {
     for (let i in this.userData) {
@@ -606,20 +659,8 @@ export default {
       isThereOriginalAttachment: false,
     };
   },
-  computed: {
-    ...mapGetters('companies', [
-      'companiesDropdownGetter',
-      'subCompaniesDropdownGetter',
-      'superVisorsDropdownGetter',
-    ]),
-    checkAttachments() {
-      return !this.form.attachments;
-    },
-  },
+
   methods: {
-    getValidationState({ dirty, validated, valid = null }) {
-      return dirty || validated ? valid : null;
-    },
     onSubmit() {
       console.log('form', this.form);
       this.isSubmitted = true;
@@ -664,6 +705,17 @@ export default {
           formData.append(i, email);
           continue;
         }
+
+        if (i == 'nationality') {
+          formData.append(i, this.form[i].name_en);
+          continue;
+        }
+
+        if (i == 'nationality_ar') {
+          formData.append(i, this.form[i].name);
+          continue;
+        }
+
         formData.append(i, this.form[i]);
       }
       formData.append('_method', 'PUT');
@@ -682,15 +734,6 @@ export default {
         .finally(() => {
           this.isSubmitted = false;
         });
-    },
-    clearForm() {
-      requestAnimationFrame(() => {
-        this.$refs.observer.reset();
-      });
-    },
-    clearAttachments() {
-      this.form.attachments = null;
-      this.form.original_attachment = null;
     },
     updatedSuccessfully() {
       this.$emit('updatedSuccessfully');

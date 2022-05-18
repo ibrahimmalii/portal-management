@@ -11,7 +11,7 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/MainCompanies/CompaniesView.vue'),
     },
     {
       path: '/login',

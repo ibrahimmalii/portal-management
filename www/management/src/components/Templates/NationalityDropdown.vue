@@ -257,6 +257,7 @@
 <script>
 export default {
   name: 'nationality-dropdown',
+
   methods: {
     print(country) {
       console.log(country);
