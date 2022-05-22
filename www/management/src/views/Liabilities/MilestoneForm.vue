@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row class="my-1 text-end mb-3">
-      <b-col class="col-1">
+      <!-- <b-col class="col-1">
         <div class="delete">
           <b-button
             :disabled="isOnlyStillOneForm"
@@ -13,8 +13,8 @@
             <i class="fa fa-trash"></i>
           </b-button>
         </div>
-      </b-col>
-      <b-col>
+      </b-col> -->
+      <b-col class="ps-5">
         <label for="input-small">{{ $store.state.is_paid }}</label>
         <validation-provider
           v-slot="validationContext"
@@ -40,7 +40,7 @@
           </b-form-invalid-feedback>
         </validation-provider>
       </b-col>
-      <b-col>
+      <b-col class="col-md-2">
         <label for="input-small">{{ $store.state.required_amount }}</label>
         <validation-provider
           v-slot="validationContext"
@@ -61,25 +61,56 @@
         </validation-provider>
       </b-col>
       <b-col>
-        <label for="input-small">{{ $store.state.date }}</label>
+        <label for="input-small">{{ $store.state.payDate }}</label>
+          <b-form-datepicker
+            v-model="pay_date"
+            class="text-end"
+            :placeholder="$store.state.payDate"
+          ></b-form-datepicker>
+      </b-col>
+      <b-col>
+        <label for="input-small">{{ $store.state.dueDate }}</label>
         <validation-provider
           v-slot="validationContext"
-          :name="$store.state.date"
+          :name="$store.state.dueDate"
           rules="required"
           :vid="'date' + id"
         >
           <b-form-datepicker
             v-model="date"
             class="text-end"
-            :placeholder="$store.state.date"
+            :placeholder="$store.state.dueDate"
           ></b-form-datepicker>
           <b-form-invalid-feedback
             :state="getValidationState(validationContext)"
             >{{ validationContext.errors[0] }}</b-form-invalid-feedback
           >
         </validation-provider>
-      </b-col>
+      </b-col>    
     </b-row>
+    <b-row  class="my-1 text-end mb-3">
+      <b-col class="col-1">
+        <div class="delete">
+          <b-button
+            :disabled="isOnlyStillOneForm"
+            :style="deleteBtnStyle"
+            class="ml-2"
+            variant="danger"
+            @click="$emit('deleteMileStone', id)"
+          >
+            <i class="fa fa-trash"></i>
+          </b-button>
+        </div>
+      </b-col>
+          <b-col>
+            <label for="input-small">{{ $store.state.notes }}</label>
+            <b-form-textarea class="text-end"
+            v-model="notes"
+            :placeholder="$store.state.notes"
+            >
+            </b-form-textarea>
+          </b-col>
+        </b-row>
   </div>
 </template>
 
@@ -96,7 +127,7 @@ export default {
       default: false,
     },
   },
-  sync: ['id', 'date', 'required_amount', 'is_paid'],
+  sync: ['id', 'date', 'required_amount', 'is_paid', 'pay_date', 'notes'],
   data() {
     return {
       booleanDropdown: [
@@ -118,4 +149,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@import 'vue-select/dist/vue-select.css';
+</style>

@@ -89,7 +89,6 @@ L10n.load({
       UnGroup: 'إلغاء تجميع الأعمدة',
       Item: 'عنصر',
       Items: 'عناصر',
-      totalItemsInfo: 'totalItemsInfo',
       totalItemInfo: 'عنصر',
       Search: 'بحث',
       Print: 'طباعة',
@@ -109,6 +108,10 @@ L10n.load({
       ClearButton: 'مسح البحث',
       FilterMenu: 'خيارات البحث',
       Excelexport: 'تصدير إلى Excel',
+      Item: 'العنصر',
+      Items: 'العناصر',
+      totalItemsInfo: 'عدد العناصر',
+      totalItemInfo: 'العنصر',
     },
     pager: {
       currentPageInfo: '{0} من {1} صفحة',

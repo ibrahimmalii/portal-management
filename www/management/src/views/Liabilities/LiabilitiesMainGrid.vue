@@ -129,6 +129,7 @@
     <div v-else class="text-center mt-5 mb-3 d-flex justify-content-center">
       <b-spinner variant="primary"></b-spinner>
     </div>
+
     <ejs-toast
       ref="successToast"
       cssClass="e-toast-success"
@@ -157,16 +158,16 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
-import gridMixin from '@/mixins/gridMixin';
-import DetailsTemplate from './DetailsTemplate.vue';
-import PaidTemplate from './PaidTemplate.vue';
-import LinkTemplate from '@/components/Templates/LinkTemplate.vue';
-import LiabilityActionsVue from './LiabilityActions.vue';
-import AddLiabilityView from './AddLiabilityView.vue';
-import EditLiabilityView from './EditLiabilityView.vue';
-import toastMixin from '@/mixins/toastMixin';
-import eventBus from '@/eventBus';
+import { mapActions } from "vuex";
+import gridMixin from "@/mixins/gridMixin";
+import DetailsTemplate from "./DetailsTemplate.vue";
+import PaidTemplate from "./PaidTemplate.vue";
+import LinkTemplate from "@/components/Templates/LinkTemplate.vue";
+import LiabilityActionsVue from "./LiabilityActions.vue";
+import AddLiabilityView from "./AddLiabilityView.vue";
+import EditLiabilityView from "./EditLiabilityView.vue";
+import toastMixin from "@/mixins/toastMixin";
+import eventBus from "@/eventBus";
 
 export default {
   mixins: [gridMixin, toastMixin],
@@ -176,8 +177,8 @@ export default {
     EditLiabilityView,
   },
   mounted() {
-    eventBus.$on('edit-liability', this.loadLiabilityDetails);
-    eventBus.$on('view-liability', this.viewLiability);
+    eventBus.$on("edit-liability", this.loadLiabilityDetails);
+    eventBus.$on("view-liability", this.viewLiability);
 
     this.loadLiabilities();
     this.getCompaniesDropdown();
@@ -201,26 +202,29 @@ export default {
       linkTemplate: function (fields) {
         return { template: LinkTemplate, props: { nameFields: fields } };
       },
-      addLiability: 'اضافة عقد جديد',
-      editLiability: 'تعديل عقد',
+      addLiability: "اضافة عقد جديد",
+      editLiability: "تعديل عقد",
       cTemplate: function () {
         return { template: LiabilityActionsVue };
       },
     };
   },
   methods: {
-    ...mapActions('companies', [
-      'getCompaniesDropdown',
-      'getSubCompaniesDropdown',
-      'getUsersDropdown',
-      'getProducts',
+    ...mapActions("companies", [
+      "getCompaniesDropdown",
+      "getSubCompaniesDropdown",
+      "getUsersDropdown",
+      "getProducts",
     ]),
     loadLiabilities() {
       this.isLoading = true;
       this.$axios
-        .get('liabilities')
+        .get("liabilities")
         .then((response) => {
-          this.data = response.data;
+          this.data = response.data.map((item) => {
+            item.created_at = new Date(item.created_at);
+            return item;
+          });
         })
         .catch(console.error)
         .finally(() => {
@@ -229,7 +233,7 @@ export default {
     },
     loadLiabilityDetails(data) {
       this.isLiabilityDetailsLoaded = false;
-      this.$bvModal.show('edit-liability-modal');
+      this.$bvModal.show("edit-liability-modal");
       this.$axios
         .get(`liabilities/${data.id}`)
         .then((res) => {
@@ -242,11 +246,12 @@ export default {
       return;
     },
     addedSuccessfully() {
-      this.$bvModal.hide('add-liability-modal');
+      this.$bvModal.hide("add-liability-modal");
       this.$refs.successToast.show({
         template: this.$store.state.successAdd,
       });
       this.loadLiabilities();
+      eventBus.$emit("refresh-liabilities-dates");
     },
     addedError(errors) {
       console.log(errors.response.data.message);
@@ -255,8 +260,9 @@ export default {
       });
     },
     updatedSuccessfully() {
-      this.$bvModal.hide('edit-liability-modal');
+      this.$bvModal.hide("edit-liability-modal");
       this.loadLiabilities();
+      eventBus.$emit("refresh-liabilities-dates");
       this.$refs.successToast.show({
         template: this.$store.state.successUpdate,
       });
@@ -273,20 +279,20 @@ export default {
 </script>
 
 <style>
-@import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-calendars/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-vue-notifications/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
-@import '@/assets/common.css';
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-notifications/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-grids/styles/material.css";
+@import "@/assets/common.css";
 
 .e-detailcell {
   text-align: center;

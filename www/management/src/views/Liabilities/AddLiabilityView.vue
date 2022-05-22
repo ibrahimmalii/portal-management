@@ -154,12 +154,19 @@
             </validation-provider>
           </b-col>
         </b-row>
+        <b-row  class="my-1 text-end mb-3">
+          <b-col>
+            <label for="input-small">{{ $store.state.notes }}</label>
+            <b-form-textarea class="text-end" v-model="form.notes">
+            </b-form-textarea>
+          </b-col>
+        </b-row>
         <b-card
           :title="$store.state.milestone_details"
           scrollable
           class="text-end"
         >
-          <b-card-boody>
+          <b-card-body name="mile">
             <div class="milestone">
               <b-row class="my-1 text-end mb-2">
                 <transition-group name="list">
@@ -179,7 +186,7 @@
                 </b-button>
               </b-form-row>
             </div>
-          </b-card-boody>
+          </b-card-body>
         </b-card>
         <b-row class="my-1 text-end my-3">
           <b-col>
@@ -254,15 +261,18 @@ export default {
         total_amount: '',
         remaining_amount: '',
         is_fully_paid: 0,
+        notes: null,
         liability_dates: [
           {
             id: '38483748drxcn',
             date: null,
+            pay_date: null,
             required_amount: null,
             is_paid: {
               id: 0,
               name: 'لا',
             },
+            notes: null,
           },
         ],
       },
@@ -271,6 +281,7 @@ export default {
   methods: {
     onSubmit() {
       this.isSubmitted = true;
+      console.log(this.form);
       if (
         this.form.total_amount != this.requiredAmount ||
         (this.form.total_amount == 0 && this.requiredAmount == 0)

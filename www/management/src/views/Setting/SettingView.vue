@@ -260,6 +260,7 @@ export default {
         this.$refs.errorToast.show({
           template: this.$store.state.passwordNotMatch,
         });
+        this.isSubmitted = false;
         return;
       }
 

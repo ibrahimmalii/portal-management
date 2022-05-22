@@ -124,6 +124,8 @@ export default {
         id,
         date: null,
         required_amount: null,
+        pay_date: null,
+        notes: null,
         is_paid: {
           id: 0,
           name: 'لا',

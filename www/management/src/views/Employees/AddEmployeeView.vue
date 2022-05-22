@@ -2,14 +2,6 @@
   <div>
     <ValidationObserver ref="observer" class="w-50" v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(onSubmit)">
-        <b-row class="my-1 text-end mb-3 d-none">
-          <b-col>
-            <nationality-dropdown-vue></nationality-dropdown-vue>
-          </b-col>
-          <b-col>
-            <nationality-dropdown-english-vue></nationality-dropdown-english-vue>
-          </b-col>
-        </b-row>
         <b-row class="my-1 text-end mb-3">
           <b-col class="d-none">
             <label for="input-small">{{ $store.state.email }}</label>
@@ -552,18 +544,13 @@
 </template>
 
 <script>
-import NationalityDropdownVue from '@/components/Templates/NationalityDropdown.vue';
-import NationalityDropdownEnglishVue from '../../components/Templates/NationalityDropdownEnglish.vue';
 import employeeMixin from '@/mixins/employeeMixin';
 
 export default {
   name: 'AddCompanyView',
   emits: ['addedSuccessfully', 'addeddError'],
   mixins: [employeeMixin],
-  components: {
-    NationalityDropdownVue,
-    NationalityDropdownEnglishVue,
-  },
+
   data() {
     return {
       isSubmitted: false,
