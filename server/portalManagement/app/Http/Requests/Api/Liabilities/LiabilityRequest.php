@@ -36,7 +36,8 @@ class LiabilityRequest extends FormRequest
             'liability_dates.*.date' => 'required|date',
             'liability_dates.*.required_amount' => 'required|integer',
             'liability_dates.*.is_paid' => 'required|boolean',
-            'sumMilestones' => 'required|integer'
+            'sumMilestones' => 'required|integer',
+            'notes' => 'nullable|string',
         ];
     }
 

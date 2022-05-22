@@ -21,11 +21,14 @@ class LiabilityController extends Controller
     public function storeLiabilityDates(array $validatedData, int $liability_id)
     {
         foreach($validatedData['liability_dates'] as $key => $liability){
+
             LiabilityDate::create([
                 'liability_id' => $liability_id,
                 'date' => $liability['date'],
                 'required_amount' => $liability['required_amount'],
-                'is_paid' => $liability['is_paid']
+                'is_paid' => $liability['is_paid'],
+                'notes' => $liability['notes'] ?? null,
+                'pay_date' => $liability['pay_date'] ?? null,
             ]);
         }
     }
@@ -38,7 +41,7 @@ class LiabilityController extends Controller
     public function index()
     {
         $liabilities = Liability::with(['dates' => function ($query) {
-            $query->select('id','liability_id', 'date', 'required_amount', 'is_paid');
+            $query->select('id','liability_id', 'date', 'required_amount', 'is_paid', 'pay_date');
         }, 'user' => function ($query){
             $query->select('id', 'name', 'name_ar');
         }, 'company' => function ($query) {
@@ -91,7 +94,7 @@ class LiabilityController extends Controller
     public function show(Liability $liability)
     {
         $liability = $liability->with(['dates' => function ($query) {
-            $query->select('id','liability_id', 'date', 'required_amount', 'is_paid');
+            $query->select('id','liability_id', 'date', 'required_amount', 'is_paid', 'notes', 'pay_date');
         }, 'user' => function ($query){
             $query->select('id', 'name', 'name_ar', 'avatar');
         }, 'company' => function ($query) {

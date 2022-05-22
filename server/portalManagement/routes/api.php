@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\LiabilityController;
+use App\Http\Controllers\Api\LiabilityDatesController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SubCompaniesController;
 use App\Http\Controllers\Api\UserController;
@@ -48,5 +49,6 @@ Route::resource('users', UserController::class);
 
 Route::resource('liabilities', LiabilityController::class);
 Route::resource('products', ProductController::class);
+Route::resource('liability-dates', LiabilityDatesController::class);
 
 Route::get('/getAvaliableUsers/{company}', [CompanyController::class, 'getAvaliableUsersInCompany'])->name('getAvaliableUsers');
