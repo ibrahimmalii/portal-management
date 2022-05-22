@@ -164,6 +164,7 @@ const store = new Vuex.Store({
       dueDate: 'تاريخ الاستحقاق',
       liabilitiesDates: 'تاريخ الخصومات',
       liability_number: 'رقم الخصم',
+      noNotes: 'لا يوجد ملاحظات',
       nationalities: [
         {
           id: 3,

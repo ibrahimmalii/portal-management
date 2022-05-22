@@ -91,12 +91,12 @@
       </b-row>
       <b-row class="my-1 text-end mb-3">
         <b-col>
-          <label for="input-small">{{ $store.state.product_details }}</label>
+          <label for="input-small">{{ $store.state.notes }}</label>
           <b-form-textarea
             id="product_details"
             class="text-end"
             size="sm"
-            :value="liabilityData.product.description"
+            :value="liabilityData.notes"
             disabled
           ></b-form-textarea>
         </b-col>
@@ -106,48 +106,71 @@
         scrollable
         class="text-end"
       >
-        <b-card-boody name="milestone">
+        <b-card-body name="milestone">
           <div class="milestone">
-            <b-row
-              class="my-1 text-end mb-2"
+            <div
               v-for="milestone in liabilityData.dates"
               :key="milestone.id"
+              class="mb-5"
             >
-              <b-col>
-                <label for="input-small">{{ $store.state.date }}</label>
-                <b-form-input
-                  id="product"
-                  class="text-end"
-                  size="md"
-                  :value="milestone.date"
-                  disabled
-                ></b-form-input>
-              </b-col>
-              <b-col>
-                <label for="input-small">{{
-                  $store.state.required_amount
-                }}</label>
-                <b-form-input
-                  id="product"
-                  class="text-end"
-                  size="md"
-                  :value="milestone.required_amount"
-                  disabled
-                ></b-form-input>
-              </b-col>
-              <b-col>
-                <label for="input-small">{{ $store.state.is_paid }}</label>
-                <b-form-input
-                  id="product"
-                  class="text-end"
-                  size="md"
-                  :value="milestone.is_paid ? 'مدفوع' : 'غير مدفوع'"
-                  disabled
-                ></b-form-input>
-              </b-col>
-            </b-row>
+              <b-row class="my-1 text-end mb-2">
+                <b-col>
+                  <label for="input-small">{{ $store.state.dueDate }}</label>
+                  <b-form-input
+                    id="product"
+                    class="text-end"
+                    size="md"
+                    :value="milestone.date"
+                    disabled
+                  ></b-form-input>
+                </b-col>
+                <b-col>
+                  <label for="input-small">{{ $store.state.payDate }}</label>
+                  <b-form-input
+                    id="product"
+                    class="text-end"
+                    size="md"
+                    :value="milestone.pay_date || $store.state.na"
+                    disabled
+                  ></b-form-input>
+                </b-col>
+                <b-col>
+                  <label for="input-small">{{
+                    $store.state.required_amount
+                  }}</label>
+                  <b-form-input
+                    id="product"
+                    class="text-end"
+                    size="md"
+                    :value="milestone.required_amount"
+                    disabled
+                  ></b-form-input>
+                </b-col>
+                <b-col>
+                  <label for="input-small">{{ $store.state.is_paid }}</label>
+                  <b-form-input
+                    id="product"
+                    class="text-end"
+                    size="md"
+                    :value="milestone.is_paid ? 'مدفوع' : 'غير مدفوع'"
+                    disabled
+                  ></b-form-input>
+                </b-col>
+              </b-row>
+              <b-row class="my-1 text-end mb-2">
+                <b-col>
+                  <label for="input-small">{{ $store.state.notes }}</label>
+                  <b-form-textarea
+                    :value="milestone.notes || $store.state.noNotes"
+                    class="text-end"
+                    disabled
+                  >
+                  </b-form-textarea>
+                </b-col>
+              </b-row>
+            </div>
           </div>
-        </b-card-boody>
+        </b-card-body>
       </b-card>
     </b-card>
   </div>
@@ -155,7 +178,7 @@
 
 <script>
 export default {
-  props: ['liabilityData'],
+  props: ["liabilityData"],
 };
 </script>
 
