@@ -100,7 +100,7 @@
       <div class="measurement-section text-center my-3">
         <div class="measurement-section-header">
           <h5>
-            الإحصائيات من:
+            تاريخ الاحصائيات من:
             <span class="fs-6 fst-italic">{{
               startDate || $store.state.na
             }}</span>

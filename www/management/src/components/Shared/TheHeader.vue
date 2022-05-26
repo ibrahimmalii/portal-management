@@ -25,6 +25,9 @@
           <b-nav-item :to="{ name: 'liabilities' }">{{
             $store.state.liabilities
           }}</b-nav-item>
+          <b-nav-item :to="{ name: 'statistics' }">{{
+            $store.state.statistics
+          }}</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="me-auto">
@@ -66,20 +69,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: 'the-header',
+  name: "the-header",
   mounted() {},
   computed: {
-    ...mapGetters('auth', [
-      'getLoggedStatus',
-      'userNameGetter',
-      'avatarGetter',
+    ...mapGetters("auth", [
+      "getLoggedStatus",
+      "userNameGetter",
+      "avatarGetter",
     ]),
   },
   methods: {
-    ...mapActions('auth', ['logout']),
+    ...mapActions("auth", ["logout"]),
   },
 };
 </script>

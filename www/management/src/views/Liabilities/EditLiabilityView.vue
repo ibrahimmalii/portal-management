@@ -197,7 +197,11 @@
                 </span>
                 <span
                   >{{ $store.state.required_amount }}:
-                  {{ measureRequiredAmount || 0 }}</span
+                  {{ measureRequiredAmount || 0 }} |</span
+                >
+                <span>
+                  {{ $store.state.required_amount_to_complete }}:
+                  {{ measureRequiredToComplete || 0 }}</span
                 >
               </div>
               <div>
@@ -247,6 +251,7 @@ export default {
   components: {
     MilestoneFormVue,
   },
+
   mounted() {
     this.loadFormData();
   },

@@ -154,7 +154,7 @@
             </validation-provider>
           </b-col>
         </b-row>
-        <b-row  class="my-1 text-end mb-3">
+        <b-row class="my-1 text-end mb-3">
           <b-col>
             <label for="input-small">{{ $store.state.notes }}</label>
             <b-form-textarea class="text-end" v-model="form.notes">
@@ -198,7 +198,11 @@
                 </span>
                 <span
                   >{{ $store.state.required_amount }}:
-                  {{ measureRequiredAmount || 0 }}</span
+                  {{ measureRequiredAmount || 0 }} |</span
+                >
+                <span>
+                  {{ $store.state.required_amount_to_complete }}:
+                  {{ measureRequiredToComplete || 0 }}</span
                 >
               </div>
               <div>
@@ -236,13 +240,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import MilestoneFormVue from './MilestoneForm.vue';
-import liabilityMixin from '@/mixins/liabilityMixin';
+import { mapGetters } from "vuex";
+import MilestoneFormVue from "./MilestoneForm.vue";
+import liabilityMixin from "@/mixins/liabilityMixin";
 
 export default {
-  name: 'AddLiabilityView',
-  emits: ['addedSuccessfully', 'addeddError'],
+  name: "AddLiabilityView",
+  emits: ["addedSuccessfully", "addeddError"],
   mixins: [liabilityMixin],
   components: {
     MilestoneFormVue,
@@ -251,26 +255,26 @@ export default {
     return {
       isSubmitted: false,
       requiredAmount: 0,
-      errorTotals: '',
+      errorTotals: "",
       form: {
-        company_id: '',
-        sub_company_id: '',
-        product_id: '',
-        user_id: '',
+        company_id: "",
+        sub_company_id: "",
+        product_id: "",
+        user_id: "",
         civil_id: null,
-        total_amount: '',
-        remaining_amount: '',
+        total_amount: "",
+        remaining_amount: "",
         is_fully_paid: 0,
         notes: null,
         liability_dates: [
           {
-            id: '38483748drxcn',
+            id: "38483748drxcn",
             date: null,
             pay_date: null,
             required_amount: null,
             is_paid: {
               id: 0,
-              name: 'لا',
+              name: "لا",
             },
             notes: null,
           },
@@ -301,10 +305,10 @@ export default {
 
       for (let i in this.form) {
         if (
-          i == 'company_id' ||
-          i == 'sub_company_id' ||
-          i == 'product_id' ||
-          i == 'user_id'
+          i == "company_id" ||
+          i == "sub_company_id" ||
+          i == "product_id" ||
+          i == "user_id"
         ) {
           if (this.form[i]) {
             formData.append(i, this.form[i].id);
@@ -330,19 +334,19 @@ export default {
       }
 
       if (!this.form.remaining_amount) {
-        formData.append('remaining_amount', 0);
+        formData.append("remaining_amount", 0);
       }
       this.$axios
-        .post('/liabilities', formData, {
+        .post("/liabilities", formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((_) => {
-          this.$emit('addedSuccessfully');
+          this.$emit("addedSuccessfully");
         })
         .catch((errors) => {
-          this.$emit('addedError', errors);
+          this.$emit("addedError", errors);
         })
         .finally(() => {
           this.isSubmitted = false;
@@ -353,8 +357,8 @@ export default {
 </script>
 
 <style scoped>
-@import 'vue-select/dist/vue-select.css';
-@import '@/assets/common.css';
+@import "vue-select/dist/vue-select.css";
+@import "@/assets/common.css";
 
 .milestone {
   background-color: #ebe8e8;

@@ -13,7 +13,7 @@ const store = new Vuex.Store({
   },
   state() {
     return {
-      baseUrl: 'http://localhost:8000/storage',
+      baseUrl: 'http://liabilities.test/storage',
       // baseUrl: 'https://liabilities.eng-ibrahim.com/storage',
       main_company: 'الشركة الرئيسية',
       name: 'الاسم الانجليزي',
@@ -118,7 +118,7 @@ const store = new Vuex.Store({
       no_attachment: 'لا يوجد مرفقات',
       logout: 'تسجيل الخروج',
       login: 'تسجيل الدخول',
-      liabilities: 'الخصومات',
+      liabilities: 'المديونيات',
       id: 'الرقم',
       amount: 'المبلغ',
       remaining_amount: 'المبلغ المتبقي',
@@ -145,7 +145,7 @@ const store = new Vuex.Store({
       required_amount: 'المبلغ المطلوب',
       enterRequiredAmount: 'ادخل المبلغ المطلوب',
       errorEquality: 'المبلغ الاجمالى يجب ان يساوى المبلغ المطلوب',
-      liabilityDetails: 'تفاصيل الخصومات',
+      liabilityDetails: 'تفاصيل المديونيات',
       product_details: 'تفاصيل المنتج',
       milestone_details: 'تفاصيل الدفعات',
       liability_status: 'حالة الخصم',
@@ -162,9 +162,15 @@ const store = new Vuex.Store({
       notes: 'الملاحظات',
       payDate: 'تاريخ الدفع',
       dueDate: 'تاريخ الاستحقاق',
-      liabilitiesDates: 'تاريخ الخصومات',
+      liabilitiesDates: ' احصائيات تاريخ المديونيات',
       liability_number: 'رقم الخصم',
       noNotes: 'لا يوجد ملاحظات',
+      required_amount_to_complete: 'المبلغ المتبقى للإكمال',
+      required_value: 'القيمة المستحقة',
+      dueDateFrom: 'تاريخ الاستحقاق من',
+      dueDateTo: 'تاريخ الاستحقاق إلى',
+      search: 'بحث',
+      statistics: 'احصائيات',
       nationalities: [
         {
           id: 3,

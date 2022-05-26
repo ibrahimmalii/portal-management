@@ -202,8 +202,8 @@ export default {
       linkTemplate: function (fields) {
         return { template: LinkTemplate, props: { nameFields: fields } };
       },
-      addLiability: "اضافة عقد جديد",
-      editLiability: "تعديل عقد",
+      addLiability: "اضافة مديونية جديدة",
+      editLiability: "تعديل مديونية",
       cTemplate: function () {
         return { template: LiabilityActionsVue };
       },

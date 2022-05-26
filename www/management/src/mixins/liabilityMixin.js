@@ -37,6 +37,11 @@ export default {
       this.requiredAmount = total;
       return total;
     },
+    measureRequiredToComplete() {
+      return (
+        (+this.form.total_amount || 0) - (+this.measureRequiredAmount || 0)
+      );
+    },
     checkCreditAndDebitEquality() {
       if (this.isSubmitted) {
         if (

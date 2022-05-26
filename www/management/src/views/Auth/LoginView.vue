@@ -95,7 +95,7 @@ export default {
           this.isLoggedError = false;
           localStorage.token = JSON.stringify(res.data.token);
           localStorage.user = JSON.stringify(res.data.user);
-          if (res.data.user.role_id != 2) {
+          if (res.data.user.role_id != 2 && res.data.user.role_id != 1) {
             this.isLoggedError = true;
             localStorage.clear();
           } else {

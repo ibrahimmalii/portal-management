@@ -73,6 +73,11 @@ const router = new VueRouter({
       name: 'setting',
       component: () => import('../views/Setting/SettingView.vue'),
     },
+    {
+      path: '/statistics',
+      name: 'statistics',
+      component: () => import('../views/Statistics/StatisticsView.vue'),
+    }
   ],
 });
 

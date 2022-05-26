@@ -22,7 +22,6 @@ export default {
       pageSettings: { pageSize: 5 },
       groupOptions: { showGroupedColumn: true },
       filterSettings: { type: 'CheckBox' },
-
       selectionOptions: { type: 'Multiple' },
       srcDropOptions: { targetID: 'DestGrid' },
       destDropOptions: { targetID: 'Grid' },
@@ -32,30 +31,33 @@ export default {
   },
   methods: {
     toolbarClick(args) {
-      if (args.item.id === 'Grid_pdfexport') {
+      console.log(args);
+      if (args.item?.id === 'Grid_pdfexport') {
         this.$refs.grid.pdfExport();
       }
 
-      if (args.item.id === 'LiabilityGrid_pdfexport') {
+      if (args.item?.id === 'LiabilityGrid_pdfexport') {
         console.log('pdf export');
         this.$refs.liabilityGrid.pdfExport();
       }
 
-      if (args.item.id === 'Grid_excelexport') {
+      if (args.item?.id === 'Grid_excelexport') {
         this.$refs.grid.excelExport();
       }
 
-      if (args.item.id === 'DestGrid_pdfexport') {
+      if (args.item?.id === 'DestGrid_pdfexport') {
         this.$refs.destGrid.pdfExport();
       }
 
-      if (args.item.id === 'Grid_excelexport') {
+      if (args.item?.id === 'Grid_excelexport') {
         this.$refs.grid.excelExport();
       }
-      if (args.item.id === 'DestGrid_excelexport') {
+      if (args.item?.id === 'DestGrid_excelexport') {
         this.$refs.destGrid.excelExport();
       }
-      if (args.item.id === 'LiabilityGrid_excelexport') {
+      if (args.item?.id === 'LiabilityGrid_excelexport') {
+        // let data = this.$refs.liabilityGrid.getCurrentViewRecords();
+        // console.log('da', data);
         this.$refs.liabilityGrid.excelExport();
       }
     },
