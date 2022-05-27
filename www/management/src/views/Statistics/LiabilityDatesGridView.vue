@@ -97,10 +97,11 @@
           ></e-column>
         </e-columns>
       </ejs-grid>
-      <div class="measurement-section text-center my-3">
+      <b-card class="measurement-section text-center my-3">
         <div class="measurement-section-header">
           <h5>
-            تاريخ الاحصائيات من:
+            تاريخ الاحصائيات<br />
+            من:
             <span class="fs-6 fst-italic">{{
               startDate || $store.state.na
             }}</span>
@@ -116,7 +117,7 @@
         <h5 class="my-2">
           القيمة المطلوب الحصول عليها: {{ measureTheSubBetweenRquiredAndPaid }}
         </h5>
-      </div>
+      </b-card>
     </div>
     <div v-else class="text-center mt-5 mb-3 d-flex justify-content-center">
       <b-spinner variant="primary"></b-spinner>

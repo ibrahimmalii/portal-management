@@ -2,21 +2,17 @@
   <div>
     <!-- This is liabilities view -->
     <liabilities-main-grid></liabilities-main-grid>
-    <!-- <liability-dates-grid-view></liability-dates-grid-view> -->
-    <!-- <liability-copy-grid :data="[]"></liability-copy-grid> -->
   </div>
 </template>
 
 <script>
 import LiabilitiesMainGrid from "./LiabilitiesMainGrid.vue";
-import LiabilityDatesGridView from "./LiabilityDatesGridView.vue";
 import LiabilityCopyGrid from "@/components/Liabilities/TheCopyGrid.vue";
 
 export default {
   components: {
     LiabilitiesMainGrid,
     LiabilityCopyGrid,
-    LiabilityDatesGridView,
   },
 };
 </script>
